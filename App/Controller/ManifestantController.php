@@ -13,7 +13,7 @@ use Silex\ControllerProviderInterface;
 
 class ManifestantController implements ControllerProviderInterface{
 
-    private $manifestantModel;
+    private $partisansModel;
 
     public function __construct(){
     }
@@ -23,9 +23,9 @@ class ManifestantController implements ControllerProviderInterface{
     }
 
     public function show(Application $app) {
-        $this->manifestantModel = new ManifestationModel($app);
-        $manifestations = $this->manifestationModel->getAllManifestant();
-        return $app["twig"]->render('categorie/v_table_categorie.twig',['data'=>$manifestations,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        $this->partisansModel = new \PartisansModel($app);
+        $manifestations = $this->partisansModel->getAllManifestant();
+        return $app["twig"]->render('partisans/v_table_partisans.twig',['data'=>$manifestations,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
 
     /**

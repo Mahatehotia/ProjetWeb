@@ -31,8 +31,8 @@
         {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
             <li class="has-dropdown"><a href="#">Manifestations</a>
                 <ul class="dropdown">
-                    <li><a href="{{ path('categorieDepense.add') }}"> créer un Type de Manifestant </a></li>
-                    <li><a href="{{ path('categorieDepense.show') }}">afficher/editer/supprimer
+                    <li><a href="{{ path('manifestant.add') }}"> créer un Type de Manifestant </a></li>
+                    <li><a href="{{ path('manifestant.show') }}">afficher/editer/supprimer
                              les Types Manifestant</a></li>
                 </ul>
             </li>
