@@ -6,6 +6,11 @@
  * Time: 00:22
  */
 
+namespace App\Model;
+
+use Doctrine\DBAL\Query\QueryBuilder;
+use Silex\Application;
+
 class ManifestantModel{
     private $db;
 
@@ -18,8 +23,7 @@ class ManifestantModel{
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('*')
-            ->from('manifestant', 'm')
-            ->addOrderBy('m.id');
+            ->from('manifestant');
         return $queryBuilder->execute()->fetchAll();
 
     }

@@ -24,7 +24,6 @@ class IndexController implements ControllerProviderInterface
         $index = $app['controllers_factory'];
         $index->match("/", 'App\Controller\IndexController::index');
         $index->match("/index", 'App\Controller\IndexController::index');
-        $index->match("/info", 'App\Controller\IndexController::info');
 
         return $index;
     }
