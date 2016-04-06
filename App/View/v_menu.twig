@@ -14,14 +14,14 @@
 
 <ul class="dropdown">
     {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-        <li><a href="{{ path('depense.add') }}"> créer une dépense </a></li>
+        <li><a href="{{ path('manifestant.add') }}"> créer une Manifestation </a></li>
     {% endif %}
-    <li><a href="{{ path('depense.show') }}">afficher
+    <li><a href="{{ path('manifestant.show') }}">afficher
             {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
             {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
             /editer/supprimer
             {% endif %}
-            {% endif %}les dépenses</a></li>
+            {% endif %}les Manifestations</a></li>
 </ul>
 </li>
 
@@ -29,11 +29,11 @@
 <ul class="has-dropdown">
     {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
         {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-            <li class="has-dropdown"><a href="#">Dépenses</a>
+            <li class="has-dropdown"><a href="#">Manifestations</a>
                 <ul class="dropdown">
-                    <li><a href="{{ path('categorieDepense.add') }}"> créer une Catégories </a></li>
+                    <li><a href="{{ path('categorieDepense.add') }}"> créer un Type de Manifestant </a></li>
                     <li><a href="{{ path('categorieDepense.show') }}">afficher/editer/supprimer
-                             les Catégories</a></li>
+                             les Types Manifestant</a></li>
                 </ul>
             </li>
         {% endif %}
