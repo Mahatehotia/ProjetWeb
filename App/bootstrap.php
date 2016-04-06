@@ -10,19 +10,17 @@ include('config.php');
 
 session_start();
 
-//On initialise le timeZone
 ini_set('date.timezone', 'Europe/Paris');
 
-//On ajoute l'autoloader (compatible winwin)
-$loader = require_once join(DIRECTORY_SEPARATOR,[dirname(__DIR__), 'vendor', 'autoload.php']);
-//dans l'autoloader nous ajoutons notre répertoire applicatif
+
+$loader = require_once __DIR__.'/../vendor/autoload.php';
+$loader->add("App",dirname(__DIR__));
 $loader->addPsr4('App\\',__DIR__);
 
-//Nous instancions un objet Silex\Application
 $app = new Silex\Application();
-$app -> register(new Silex\Provider\UrlGeneratorServiceProvider());
+$app['debug'] = true;
 
-// connexion à la base de données
+//Base de données
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     'db.options' => array(
         'driver' => 'pdo_mysql',
@@ -34,19 +32,17 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
     ),
 ));
 
-// utilisation des sessoins
+
+//Sessions, url, silex
 $app->register(new Silex\Provider\SessionServiceProvider());
 
-//en dev, nous voulons voir les erreurs
-$app['debug'] = true;
+$app -> register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 $app->register(new Silex\Provider\TwigServiceProvider(), array(
     'twig.path' => join(DIRECTORY_SEPARATOR, array(__DIR__, 'View'))
 ));
 
-$app->register(new Silex\Provider\UrlGeneratorServiceProvider());
-
 $app->mount("/", new App\Controller\IndexController());
 $app->mount("/manifestant", new App\Controller\ManifestantController());
-//On lance l'application
+
 $app->run();

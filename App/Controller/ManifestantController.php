@@ -11,21 +11,21 @@ use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
+use App\Model\ManifestantModel;
+
 class ManifestantController implements ControllerProviderInterface{
 
-    private $partisansModel;
+    private $manifestantModel;
 
-    public function __construct(){
-    }
 
     public function index(Application $app) {
         return $this->show($app);
     }
 
     public function show(Application $app) {
-        $this->partisansModel = new \PartisansModel($app);
-        $manifestations = $this->partisansModel->getAllManifestant();
-        return $app["twig"]->render('partisans/v_table_partisans.twig',['data'=>$manifestations,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        $this->manifestantModel = new ManifestantModel($app);
+        $manifestations = $this->manifestantModel->getAllManifestant();
+        return $app["twig"]->render('categorie/v_table_categorie.twig',['data'=>$manifestations,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
 
     /**
@@ -40,5 +40,7 @@ class ManifestantController implements ControllerProviderInterface{
         // TODO: Implement connect() method.
         $index = $app['controllers_factory'];
         $index->get("/show", 'App\Controller\ManifestantController::show')->bind('manifestant.show');
+
+        return $index;
     }
 }
