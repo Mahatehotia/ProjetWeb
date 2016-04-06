@@ -23,7 +23,8 @@ class ManifestantModel{
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('*')
-            ->from('manifestant');
+            ->from('manifestant', 'm')
+            ->leftJoin('typeManifestants', 'on tM.id=m.typeManifestant', 'tM');
         return $queryBuilder->execute()->fetchAll();
 
     }
