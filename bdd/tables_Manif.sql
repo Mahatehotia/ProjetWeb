@@ -39,3 +39,12 @@ CREATE TABLE IF NOT EXISTS client (
 INSERT INTO client (email, mdp, nom, prenom, droits) VALUES
   ('pascal.phelipot@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Pascal', 'PHELIPOT', 'admin'),
   ('ralijaona.tiona@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Tiona', 'RALIJAONA', 'user');
+
+CREATE TABLE panier(
+  idClient int(10),
+  quantite int(5),
+  idManifestant int(10),
+  PRIMARY KEY (idClient, idManifestant),
+  FOREIGN KEY (idClient) REFERENCES client(id),
+  FOREIGN KEY (idManifestant) REFERENCES manifestant(id)
+) DEFAULT CHARSET=utf8;
