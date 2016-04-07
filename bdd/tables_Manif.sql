@@ -38,4 +38,4 @@ CREATE TABLE IF NOT EXISTS client (
 
 INSERT INTO client (email, mdp, nom, prenom, droits) VALUES
   ('pascal.phelipot@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Pascal', 'PHELIPOT', 'admin'),
-  ('tochna', '098f6bcd4621d373cade4e832627b4f6', 'Tiona', 'RALIJAONA', 'user');
+  ('ralijaona.tiona@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Tiona', 'RALIJAONA', 'user');
