@@ -13,6 +13,7 @@ use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
 use App\Model\PanierModel;
+use App\Model\UserModel;
 
 class PanierController implements ControllerProviderInterface{
 
@@ -27,8 +28,10 @@ class PanierController implements ControllerProviderInterface{
 
     public function show(Application $app) {
         $this->panierModel = new PanierModel($app);
-        $manifestant = $this->panierModel->getAllManifestant();
-        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        $this->userModel = new UserModel($app);
+        $id= $this -> userModel -> getIdUser($app);
+        $panier = $this->panierModel->getPanierClient($id);
+        return $app["twig"]->render('panier/v_table_panier.twig',['data'=>$panier,'path'=>BASE_URL,'_SESSION'=>$_SESSION],'user'=>$id);
     }
     /**
      * Returns routes to connect to the given application.
