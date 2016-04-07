@@ -13,38 +13,22 @@
             <li class="has-dropdown"><a href="#">Manifestant</a>
 
 <ul class="dropdown">
-    {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-        <li><a href="{{ path('manifestant.add') }}"> créer une Manifestation </a></li>
-    {% endif %}
-    <li><a href="{{ path('manifestant.show') }}">afficher
-            {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-            {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-            /editer/supprimer
-            {% endif %}
-            {% endif %}les Manifestations</a></li>
+    <li><a href="{{ path('manifestant.show') }}">afficher/editer/supprimer les Manifestations</a></li>
 </ul>
 </li>
 
 </ul>
 <ul class="has-dropdown">
-    {% if   app.session.get('logged') is defined and  app.session.get('logged') == 1 %}
-        {% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
             <li class="has-dropdown"><a href="#">Manifestations</a>
                 <ul class="dropdown">
                     <li><a href="{{ path('manifestant.add') }}"> créer un Type de Manifestant </a></li>
-                    <li><a href="{{ path('manifestant.show') }}">afficher/editer/supprimer
-                             les Types Manifestant</a></li>
+                    <li><a href="{{ path('manifestant.show') }}">afficher/editer/supprimer les Types Manifestant</a></li>
                 </ul>
             </li>
-        {% endif %}
 </ul>
     <ul class="right">
-        <li class="name" style="color: #d58512">Connecté en tant que : {{ app.session.get('login') }}</li>
-        <li><a href="{{ path('user.logout')  }}">Se déconnecter</a></li> </ul>
-    {% else %}
         <ul class="right">
-        <li><a href="{{ path('user.login')  }}">Se connecter</a></li>
-    {% endif %}
+        <li><a href="#">Se connecter</a></li>
 </ul>
 </section>
 </nav>
