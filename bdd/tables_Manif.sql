@@ -1,4 +1,4 @@
-DROP TABLE  IF EXISTS paniers,commandes, partisans, users, typePartisans, etats, manifestant, typeManifestants;
+DROP TABLE  IF EXISTS paniers,commandes, users, etats, manifestant, typeManifestants;
 
 CREATE TABLE IF NOT EXISTS typeManifestants (
   id int(10) NOT NULL,
@@ -16,7 +16,6 @@ CREATE TABLE IF NOT EXISTS manifestant (
   typeManifestant int(10) DEFAULT NULL,
   nom varchar(50) DEFAULT NULL,
   prix float(6,2) DEFAULT NULL,
-  quantites int(10) NOT NULL,
   photo varchar(50) DEFAULT NULL,
   stock int(11) NOT NULL,
   PRIMARY KEY (id),
@@ -26,4 +25,4 @@ CREATE TABLE IF NOT EXISTS manifestant (
 INSERT INTO manifestant (id,typeManifestant,nom,prix,photo,stock) VALUES
 (1,2, 'Nazi','100','Nazi.jpeg',5),
 (2,2, 'Femen','5.5','Femen.jpeg',4),
-(3,1, 'Pacifiste 3','8.5','Pacifiste.jpeg',10);
+(3,1, 'Pacifiste','8.5','Pacifiste.jpeg',10);
