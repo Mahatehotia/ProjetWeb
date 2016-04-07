@@ -6,19 +6,21 @@
         <thead>
             <tr>
                 <th>n°</th>
-                <th>prix</th>
-                <th>nom</th>
-                <th>photo</th>
-                <th>stock</th>
-                <th>choix</th>
+                <th>Prix</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Photo</th>
+                <th>Stock</th>
+                <th>Choix</th>
             </tr>
         </thead>
         <tbody>
             {% for manifestant in data if data is not empty %}
                 <tr>
                     <td>{{manifestant.id}}</td>
-                    <td>{{manifestant.prix}}</td>
+                    <td>{{manifestant.prix}} €</td>
                     <td>{{manifestant.nom}}</td>
+                    <td>{{ manifestant.libelle }}</td>
                     <td>{{manifestant.photo}}</td>
                     <td>{{ manifestant.stock }}</td>
                     <td>

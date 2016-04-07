@@ -22,8 +22,9 @@ class ManifestantModel{
     public function getAllManifestant() {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('m.id','m.typeManifestant','m.nom','m.prix','m.photo','m.stock')
+            ->select('m.id','tM.libelle','m.nom','m.prix','m.photo','m.stock')
             ->from('manifestant', 'm')
+            ->leftJoin('m', 'typeManifestants', 'tM', 'm.typeManifestant=tM.id')
             ->addOrderBy('m.id');
         return $queryBuilder->execute()->fetchAll();
     }

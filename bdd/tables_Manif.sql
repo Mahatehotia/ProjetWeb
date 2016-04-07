@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS manifestant (
 
 INSERT INTO manifestant (id,typeManifestant,nom,prix,photo,stock) VALUES
 (1,2, 'Nazi','100','Nazi.jpeg',5),
-(2,2, 'Femen','5.5','Femen.jpeg',4),
+(2,1, 'Femen','5.5','Femen.jpeg',4),
 (3,1, 'Pacifiste','8.5','Pacifiste.jpeg',10);
 
 CREATE TABLE IF NOT EXISTS client (
