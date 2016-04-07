@@ -7,5 +7,11 @@
       <schema-pattern>BDD_tralijao.*</schema-pattern>
       <default-schemas>BDD_tralijao.*</default-schemas>
     </data-source>
+    <data-source name="MySQL - BDD_pphelipo@localhost" uuid="e29c8265-156c-4c57-8304-6587ca9d35bf">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>BDD_pphelipo.*</schema-pattern>
+      <default-schemas>BDD_pphelipo.*</default-schemas>
+    </data-source>
   </component>
 </project>
