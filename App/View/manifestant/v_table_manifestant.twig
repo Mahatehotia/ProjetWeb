@@ -1,0 +1,35 @@
+{% extends "v_layout.twig" %}
+{% block contenu %}
+    <div class="row">
+    <table>
+    <caption>Informations sur Les Manifestants</caption>
+        <thead>
+            <tr>
+                <th>n°</th>
+                <th>prix</th>
+                <th>nom</th>
+                <th>quantites</th>
+                <th>photo</th>
+                <th>stock</th>
+                <th>choix</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for manifestant in data if data is not empty %}
+                <tr>
+                    <td>{{manifestant.id}}</td>
+                    <td>{{manifestant.prix}}</td>
+                    <td>{{manifestant.nom}}</td>
+                    <td>{{manifestant.quantites}}</td>
+                    <td>{{manifestant.photo}}</td>
+                    <td>{{ manifestant.stock }}</td>
+                    <td>
+                        <a href="{{url('manifestant.edit', {'id':manifestant.id})}}"> <img height="16px" width="16px" src="{{ path }}images/modif.png">modifier </a>
+                        <a href="{{url('manifestant.delete', {'id':manifestant.id})}}"> <img height="16px" width="16px" src="{{ path }}images/poubelle.png">supprimer </a>
+                    </td>
+               </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+{% endblock %}
