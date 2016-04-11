@@ -44,5 +44,6 @@ $app->register(new Silex\Provider\TwigServiceProvider(), array(
 
 $app->mount("/", new App\Controller\IndexController());
 $app->mount("/manifestant", new App\Controller\ManifestantController());
+$app->mount('/client', new App\Controller\ClientController());
 
 $app->run();

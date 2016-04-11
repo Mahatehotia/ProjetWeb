@@ -10,25 +10,33 @@
     <section class="top-bar-section">
         <ul class="left">
             <li class="divider"></li>
-            <li class="has-dropdown"><a href="#">Manifestant</a>
-
-<ul class="dropdown">
-    <li><a href="{{ path('manifestant.show') }}">afficher/editer/supprimer les Manifestations</a></li>
-</ul>
-</li>
-
-</ul>
-<ul class="has-dropdown">
-            <li class="has-dropdown"><a href="#">Manifestations</a>
+            <li><a href="{{ path('manifestant.show') }}">Commandez votre manifestation !</a></li>
+        </ul>
+        <ul class="has-dropdown">
+            <li class="has-dropdown"><a href="#">Administration</a>
                 <ul class="dropdown">
                     <li><a href="{{ path('manifestant.add') }}"> créer un Type de Manifestant </a></li>
                     <li><a href="{{ path('manifestant.show') }}">afficher/editer/supprimer les Types Manifestant</a></li>
                 </ul>
             </li>
-</ul>
-    <ul class="right">
+        </ul>
         <ul class="right">
-        <li><a href="#">Se connecter</a></li>
-</ul>
+            {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}
+                <li>
+                    <a href="{{ url('client.logout') }}">Déconnexion</a>
+                </li>
+            {% else %}
+                <li data-dropdown="login-dropdown" data-options="align:left">
+                    <a href="#">Connexion</a>
+                </li>
+            {% endif %}
+        </ul>
 </section>
 </nav>
+<div id="login-dropdown" class="f-dropdown small content" data-dropdown-content="true">
+    <form method="post" action="{{ url('client.login') }}">
+        <input type="email" name="email" placeholder="Email du compte client">
+        <input type="password" name="password" placeholder="Mot de passe">
+        <input type="submit" value="Connexion" class="small button success">
+    </form>
+</div>

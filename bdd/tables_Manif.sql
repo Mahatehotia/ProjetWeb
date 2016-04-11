@@ -1,4 +1,4 @@
-DROP TABLE  IF EXISTS paniers,commandes, manifestant, typeManifestants, client;
+DROP TABLE  IF EXISTS panier,commande, manifestant, typeManifestants, client;
 
 CREATE TABLE IF NOT EXISTS typeManifestants (
   id int(10) NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS client (
 );
 
 INSERT INTO client (email, mdp, nom, prenom, droits) VALUES
-  ('pascal.phelipot@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'Pascal', 'PHELIPOT', 'admin'),
+  ('pascal.phelipot@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Pascal', 'PHELIPOT', 'admin'),
   ('ralijaona.tiona@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Tiona', 'RALIJAONA', 'user');
 
 CREATE TABLE panier(

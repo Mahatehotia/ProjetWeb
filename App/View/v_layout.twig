@@ -13,12 +13,33 @@
 <body>
 
 {% include "v_menu.twig" %}
+<div class="row">
+    {% for flashMessage in app.session.flashbag.get('msg') %}
+        <div data-alert class="alert-box info">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div data-alert class="alert-box alert">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div data-alert class="alert-box success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
 
 {% block contenu %}
 Bienvenue !
 {% endblock %}
 
-
+</div>
 
 <script src="{{ path }}assets/js/vendor/jquery.js"></script>
 <script src="{{ path }}assets/js/foundation.min.js"></script>

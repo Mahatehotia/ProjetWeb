@@ -1,0 +1,9 @@
+{% extends "v_layout.twig" %}
+
+{% block contenu %}
+<form method="post" action="{{ url('client.login') }}" >
+    <label for="email">Email : <input type="email" name="email" id="email"></label>
+    <label for="password">Mot de passe : <input type="password" name="password" id="password"></label>
+    <input type="submit" value="Connexion" class="button success">
+</form>
+{% endblock %}

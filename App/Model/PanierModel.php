@@ -21,7 +21,9 @@ class PanierModel{
     public function getPanierClient($idClient){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->select('panier.quantite', 'm.nom', 'm.prix')
-            ->from('panier')->leftJoin('panier', 'manifestant', 'm', 'm.id=panier.idManifestant');
+            ->from('panier')->leftJoin('panier', 'manifestant', 'm', 'm.id=panier.idManifestant')
+            ->where('panier.idClient=:id')
+            ->setParameter('id', $idClient);
         return $queryBuilder->execute()->fetchAll();
     }
 }
