@@ -39,6 +39,7 @@ class ClientController implements ControllerProviderInterface
             $app['session']->set('logged', 1);
             $app['session']->set('droit', $donnees['droits_user']);
             $app['session']->set('user', $donnees['nom_user']);
+            $app['session']->set('id', $donnees['id']);
 
             return $app->redirect($app["url_generator"]->generate('manifestant.show'));
         }

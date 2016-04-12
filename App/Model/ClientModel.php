@@ -8,22 +8,24 @@
 
 namespace App\Model;
 
-use Silex\Application;
-
 use Doctrine\DBAL\Query\QueryBuilder;
+use Silex\Application;
 
 class ClientModel
 {
     private $connexionSql;
+    private $session;
 
     public function __construct(Application $app)
     {
         $this->connexionSql = $app['db'];
+        $this->session = $app['session'];
+
     }
 
     public function verifierLoginMdp($mail, $motdepasse){
         $queryBuilder = new QueryBuilder($this->connexionSql);
-        $queryBuilder->select('nom', 'prenom', 'mdp', 'droits', 'email')
+        $queryBuilder->select('id', 'nom', 'prenom', 'mdp', 'droits', 'email')
             ->from('client')
             ->where('email = :mail and mdp = :mdp')
             ->setParameter('mail', $mail)
@@ -33,6 +35,14 @@ class ClientModel
         }else{
             return false;
         }
+    }
+
+    public function getIdUser()
+    {
+        if ($this->session->get('logged') != null){
+            return $this->session->get('id');
+        }
+        return null;
     }
 
 }

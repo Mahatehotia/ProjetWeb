@@ -7,6 +7,8 @@
  */
 namespace App\Controller;
 
+use App\Model\ClientModel;
+use App\Model\PanierModel;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -29,13 +31,15 @@ class ManifestantController implements ControllerProviderInterface{
     public function show(Application $app) {
         $this->manifestantModel = new ManifestantModel($app);
         $manifestant = $this->manifestantModel->getAllManifestant();
+        $panierModel = new PanierModel($app);
+        $clientModel = new ClientModel($app);
+        $panier = $panierModel->getPanierClient($clientModel->getIdUser($app));
         return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function add(Application $app){
         $this->manifestantModel = new ManifestantModel($app);
         $manifestant = $this->manifestantModel->getAllManifestant();
         return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['manifestant'=>$manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
-        return "add Manifestant";
     }
 
     public function deleteManifestant(Application $app, $id)

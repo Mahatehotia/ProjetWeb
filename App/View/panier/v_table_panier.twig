@@ -1,6 +1,7 @@
 {% extends "v_layout.twig" %}
 {% block contenu %}
     <div class="row">
+        {% if panier is not empty %}
         <table>
             <caption> Votre Panier </caption>
             <thead>
@@ -12,19 +13,21 @@
             </tr>
             </thead>
             <tbody>
-            <td> res</td>
-            <td> res2</td>
-            <td> res3</td>
+            {% for objet in panier if panier is not empty %}
+            <tr>
+            <td>{{ objet.quantite }}</td>
+            <td> {{ objet.nom }}</td>
+            <td> {{ objet.prix }}</td>
             <td>
                 <a href="#"> <span class="fi-plus"> Ajouter</span></a>
                 <a href="#"> <span class="fi-minus"> Supprimer </span></a>
             </td>
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
-    </div>
-    <div class="row">
-        montant :
-        <a href="#"> <span class="fi-check"> Valider </span></a>
-        <a href="#"> <span class="fi-x"> Annuler </span> </a>
+        {% else %}
+            <p>Votre panier est vide. <a href="{{ url('manifestant.show') }}">Retourner faire des courses</a></p>
+        {% endif %}
     </div>
 {% endblock %}
