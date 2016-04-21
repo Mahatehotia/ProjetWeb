@@ -44,7 +44,7 @@ class PanierController implements ControllerProviderInterface{
     public function connect(Application $app)
     {
         $index = $app['controllers_factory'];
-        $index->match("/", 'App\Controller\PanierController::show')->bind('panier.index');
+        $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
         return $index;
     }
 }
