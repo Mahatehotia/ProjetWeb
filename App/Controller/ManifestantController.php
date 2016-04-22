@@ -35,8 +35,8 @@ class ManifestantController implements ControllerProviderInterface{
         $manifestant = $this->manifestantModel->getAllManifestant();
         $panierModel = new PanierModel($app);
         $clientModel = new ClientModel($app);
-        $panier = $panierModel->getPanierClient($clientModel->getIdUser($app));
-        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        $panier = $panierModel->getPanierClient($clientModel->getIdUser());
+        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function add(Application $app){
         $this->typeManifestantModel = new TypeManifestantModel($app);
@@ -44,7 +44,7 @@ class ManifestantController implements ControllerProviderInterface{
         return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['types'=>$types,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function validAdd(Application $app){
-        
+
     }
 
     public function deleteManifestant(Application $app, $id)

@@ -34,13 +34,9 @@ class PanierController implements ControllerProviderInterface{
         $panier = $this->panierModel->getPanierClient($id);
         return $app["twig"]->render('panier/v_table_panier.twig',['panier'=>$panier,'path'=>BASE_URL,'_SESSION'=>$_SESSION,'user'=>$id]);
     }
-    /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
-     */
+
+
+    
     public function connect(Application $app)
     {
         $index = $app['controllers_factory'];

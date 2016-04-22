@@ -46,15 +46,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                    <td> res</td>
-                    <td> res2</td>
-                    <td> res3</td>
-                    <td>
-                        <a href="#"> <span class="fi-plus"> </span></a>
-                        <a href="#"> <span class="fi-minus"> </span></a>
-                    </td>
-                    </tr>
+                    {% if panier is not null and panier is not empty %}
+                        {% for element in panier %}
+                            <tr>
+                                <td> {{ element.quantite }}</td>
+                                <td> {{ element.nom }}</td>
+                                <td> {{ element.prix }}</td>
+                                <td>
+                                    <a href="#"> <span class="fi-plus"> </span></a>
+                                    <a href="#"> <span class="fi-minus"> </span></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                     </tbody>
                 </table>
             </div>
