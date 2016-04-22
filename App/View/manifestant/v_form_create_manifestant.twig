@@ -1,0 +1,34 @@
+{% extends 'v_layout.twig' %}
+
+{% block contenu %}
+
+    <form action="{{ url('manifestant.add') }}" method="post">
+        <fieldset>
+            <legend>Ajout d'un manifestant</legend>
+            <label for="nomManifestant">Nom :</label>
+                <input type="text" name="nomManifestant" id="nomManifestant" placeholder="">
+            <label for="typeManifestant">Catégorie :</label>
+            <select name="typeManifestant" id="typeManifestant">
+                {% if types is not null and types is not empty %}
+                    {% for type in types %}
+                        <option value="{{ type.id }}">{{ type.libelle }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+            <div class="row collapse">
+                <label for="prixManifestant">Prix : </label>
+                <div class="small-9 columns">
+                    <input type="number" placeholder="" name="prixManifestant" id="prixManifestant" />
+                </div>
+                <div class="small-3 columns">
+                    <span class="postfix">€</span>
+                </div>
+            </div>
+            <label for="imageManifestant" >Image</label><input id="imageManifestant" name="imageManifestant" type="file">
+            <input type="submit" class="button success">
+        </fieldset>
+
+    </form>
+
+
+{% endblock %}

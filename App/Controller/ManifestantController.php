@@ -9,6 +9,7 @@ namespace App\Controller;
 
 use App\Model\ClientModel;
 use App\Model\PanierModel;
+use App\Model\TypeManifestantModel;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -19,6 +20,7 @@ use App\Model\ManifestantModel;
 class ManifestantController implements ControllerProviderInterface{
 
     private $manifestantModel;
+    private $typeManifestantModel;
 
     public function __construct()
     {
@@ -37,9 +39,12 @@ class ManifestantController implements ControllerProviderInterface{
         return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function add(Application $app){
-        $this->manifestantModel = new ManifestantModel($app);
-        $manifestant = $this->manifestantModel->getAllManifestant();
-        return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['manifestant'=>$manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        $this->typeManifestantModel = new TypeManifestantModel($app);
+        $types = $this->typeManifestantModel->getAllTypes();
+        return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['types'=>$types,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+    }
+    public function validAdd(Application $app){
+        
     }
 
     public function deleteManifestant(Application $app, $id)
@@ -64,6 +69,7 @@ class ManifestantController implements ControllerProviderInterface{
         $index->get("/show", 'App\Controller\ManifestantController::show')->bind('manifestant.show');
 
         $index->get("/add", 'App\Controller\ManifestantController::add')->bind('manifestant.add');
+        $index->post("/add", 'App\Controller\ManifestantController::validAdd');
 
         $index->get('/delete/{id}', 'App\Controller\ManifestantController::deleteManifestant')->bind('manifestant.delete');
 
