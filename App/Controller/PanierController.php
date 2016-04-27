@@ -47,12 +47,14 @@ class PanierController implements ControllerProviderInterface{
         $this ->manifestantModel = new ManifestantModel($app);
         $id = $this ->clientModel ->getIdUser();
         if($this->panierModel->getNombreInPanier($id, $idManifestant) > 0){
-            $this->panierModel->descArticleClient($id, $idManifestant, $quantite);
+            echo "Incrementation";
+            $this->panierModel->incArticleClient($id, $idManifestant, $quantite);
         }else{
+            echo "Initialisation";
             $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
         }
 
-        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+        //return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
     public function removeArticle(Application $app){
