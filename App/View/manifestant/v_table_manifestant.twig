@@ -37,41 +37,11 @@
             </div>
         </div>
     {% endfor %}
-            {#
-    <table>
-    <caption>Informations sur Les Manifestants</caption>
-        <thead>
-            <tr>
-                <th>n°</th>
-                <th>Prix</th>
-                <th>Nom</th>
-                <th>Catégorie</th>
-                <th>Photo</th>
-                <th>Stock</th>
-                <th>Choix</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for manifestant in data if data is not empty %}
-                <tr>
-                    <td>{{manifestant.id}}</td>
-                    <td>{{manifestant.prix}} €</td>
-                    <td>{{manifestant.nom}}</td>
-                    <td>{{ manifestant.libelle }}</td>
-                    <td>{{manifestant.photo}}</td>
-                    <td>{{ manifestant.stock }}</td>
-                    <td>
-                        <a href="{{url('manifestant.edit', {'id':manifestant.id})}}"> <span class="fi-page-edit"></span> Modifier </a>
-                        <a href="{{url('manifestant.delete', {'id':manifestant.id})}}"><span class="fi-trash"></span> Supprimer </a>
-                    </td>
-               </tr>
-            {% endfor %}
-        </tbody>
-        </table>#}
         </div>
         <div class="column large-3 small-4">
             <div class="row">
                 <table>
+                    {% if panier is not null and panier is not empty %}
                     <caption> Votre Panier </caption>
                     <thead>
                     <tr>
@@ -82,7 +52,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% if panier is not null and panier is not empty %}
+
                         {% for element in panier %}
                             <tr>
                                 <td> {{ element.quantite }}</td>
@@ -109,12 +79,23 @@
                                 </td>
                             </tr>
                         {% endfor %}
+                        {% else %}
                     {% endif %}
+
                     </tbody>
                 </table>
             </div>
             <div class="row">
-                <a href="{{ url('panier.show') }}">Voir le panier / Panier</a>
+                {% set totalPrix = 0 %}
+                {% for element in panier %}
+                    {% set totalPrix = totalPrix + element.prix*element.quantite %}
+                    {% endfor %}
+                {% if totalPrix!= 0 %}
+                <span> Montant Total: {{ totalPrix }} €</span>
+                    {% endif %}
+            </div>
+            <div class="row">
+                <a href="{{ url('panier.show') }}">Voir le panier / Payer</a>
             </div>
 
         </div>

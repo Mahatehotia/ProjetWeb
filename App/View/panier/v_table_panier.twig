@@ -41,8 +41,12 @@
             {% endfor %}
             </tbody>
         </table>
+
+        <form action="{{ url('panier.valide') }}" method="post" id="valider">
+            <button type="submit" form="valider" class="radius success"> <span class="success"></span> Passer Commande</button>
+            <button type="reset" class="radius"> <span class="radius"></span> Annuler Commande </button>
+        </form>
         {% else %}
             <p>Votre panier est vide. <a href="{{ url('manifestant.show') }}">Retourner faire des courses</a></p>
         {% endif %}
-    </div>
 {% endblock %}
