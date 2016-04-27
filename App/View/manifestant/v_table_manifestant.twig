@@ -2,6 +2,21 @@
 {% block contenu %}
     <div class="row align-center">
         <div class="column large-9 small-4">
+    {% for manifestant in data if data is not empty %}
+        <div class="row" style="border: groove #84b1ff 2px; margin: 15px;">
+            <h1 style="padding-left: 3px;">{{manifestant.nom}}</h1>
+            <div class="column large-4" style="margin: 3px;">
+                <img src="{{ path }}images/{{manifestant.photo}}">
+            </div>
+            <div class="column large-7">
+                <div class="row">Prix : {{manifestant.prix}} €</div>
+                <div class="row">Catégorie : {{ manifestant.libelle }}</div>
+                <div class="row">Quantité disponible : {{ manifestant.stock }}</div>
+                <div class="row" style="margin-top: 5px;">{{ manifestant.description }}</div>
+            </div>
+        </div>
+    {% endfor %}
+            {#
     <table>
     <caption>Informations sur Les Manifestants</caption>
         <thead>
@@ -31,7 +46,7 @@
                </tr>
             {% endfor %}
         </tbody>
-        </table>
+        </table>#}
         </div>
         <div class="column large-3 small-4">
             <div class="row">
