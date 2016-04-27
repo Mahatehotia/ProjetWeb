@@ -89,8 +89,8 @@
                                 <td> {{ element.nom }}</td>
                                 <td> {{ element.prix }}</td>
                                 <td>
-                                    <a href="#"> <span class="fi-plus"> </span></a>
-                                    <a href="#"> <span class="fi-minus"> </span></a>
+                                    <a href="{{ url('panier.ajout') }}"> <span class="fi-plus"></span></a>
+                                    <a href="{{ url('panier.remove') }}"> <span class="fi-minus"></span></a>
                                 </td>
                             </tr>
                         {% endfor %}

@@ -38,14 +38,6 @@ class PanierController implements ControllerProviderInterface{
     }
 
 
-    
-    public function connect(Application $app)
-    {
-        $index = $app['controllers_factory'];
-        $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
-        $index->post("/ajouterManifestant", 'App\Controller\PanierController::addArticle')->bind('panier.ajout');
-        return $index;
-    }
 
     public function addArticle(Application $app){
         $idManifestant = $_POST['idManifestant'];
@@ -53,10 +45,37 @@ class PanierController implements ControllerProviderInterface{
         $this ->panierModel = new PanierModel($app);
         $this ->clientModel = new ClientModel($app);
         $this ->manifestantModel = new ManifestantModel($app);
-        $manifestant = $this->manifestantModel->getAllManifestant();
         $id = $this ->clientModel ->getIdUser();
-        $panier = $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
+        if($this->panierModel->getNombreInPanier($id, $idManifestant) > 0){
+            $this->panierModel->descArticleClient($id, $idManifestant, $quantite);
+        }else{
+            $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
+        }
 
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+    }
+
+    public function removeArticle(Application $app){
+        $idManifestant = $idManifestant = $_POST['idManifestant'];
+        $this ->panierModel = new PanierModel($app);
+        $this ->clientModel = new ClientModel($app);
+        $id = $this ->clientModel ->getIdUser();
+
+        if ($nb = $this->panierModel->getNombreInPanier($id, $idManifestant) > 1){
+            $this->panierModel->descArticleClient($id, $idManifestant, 1);
+        }else{
+            $this->panierModel->deleteArticleClient($id, $idManifestant);
+        }
+
+        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+    }
+
+    public function connect(Application $app)
+    {
+        $index = $app['controllers_factory'];
+        $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
+        $index->post("/ajouterManifestant", 'App\Controller\PanierController::addArticle')->bind('panier.ajout');
+        $index->post("/enleverManifestant", 'App\Controller\PanierController::removeArticle')->bind('panier.remove');
+        return $index;
     }
 }
