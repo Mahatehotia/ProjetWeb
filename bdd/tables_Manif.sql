@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS manifestant (
 
 INSERT INTO manifestant (id,typeManifestant,nom,prix,photo,stock, description) VALUES
 (1,2, 'Nazi','100','nazi.jpg',5, 'Nostalgique du logo rouge, noir et blanc, vous trouverez votre bonheur en louant les services de nos délicieux fans de l\'histoire de la Seconde Guerre Mondiale'),
+(4,2, 'Lot de 5x Nazis','350','nazis.jpg',1, 'Nostalgique du logo rouge, noir et blanc, vous trouverez votre bonheur en louant les services de nos délicieux fans de l\'histoire de la Seconde Guerre Mondiale. Maintenant disponible en lot !'),
 (2,1, 'Femen','5.5','femen.jpg',4, 'Les droits des femmes doivent être défendu mais être payé c\'est bien aussi alors participez en louant leur service'),
 (3,1, 'Pacifiste','8.5','pacifiste.jpg',0, 'Peace & Love');
 
