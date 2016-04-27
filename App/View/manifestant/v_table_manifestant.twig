@@ -14,7 +14,7 @@
                 <div class="row" style="margin-top: 5px;">{{ manifestant.description }}</div>
                 <div class="row collapse" style="margin-top: 15px;">
                     <form action="{{ url('panier.ajout') }}" method="post">
-                        <input type="hidden" name="idClient">
+                        <input type="hidden" name="idManifestant" value="{{ manifestant.id }}">
                         <div class="row collapse">
                             <label>Quantité</label>
                             <div class="small-5 columns">

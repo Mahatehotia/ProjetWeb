@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Model\ManifestantModel;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -42,16 +43,20 @@ class PanierController implements ControllerProviderInterface{
     {
         $index = $app['controllers_factory'];
         $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
-        $index->post("/ajouterManifestant", 'App\Controller\PanierController::show')->bind('panier.ajout');
+        $index->post("/ajouterManifestant", 'App\Controller\PanierController::addArticle')->bind('panier.ajout');
         return $index;
     }
 
-    public function addArticle(Application $app,$idManifestant,$quantite){
+    public function addArticle(Application $app){
+        $idManifestant = $_POST['idManifestant'];
+        $quantite = $_POST['quantite'];
         $this ->panierModel = new PanierModel($app);
         $this ->clientModel = new ClientModel($app);
+        $this ->manifestantModel = new ManifestantModel($app);
         $manifestant = $this->manifestantModel->getAllManifestant();
         $id = $this ->clientModel ->getIdUser();
         $panier = $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
-        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+
+        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 }
