@@ -28,4 +28,22 @@ class PanierModel{
             ->setParameter('id', $idClient);
         return $queryBuilder->execute()->fetchAll();
     }
+
+    public function addArticleClient($idClient,$idManifestant,$quantite){
+        if ($idClient == null) return null;
+
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->insert('panier')
+            ->values([
+                'idClient'=> '?',
+                'quantite'=> '?',
+                'idManifestant'=> '?'
+            ])
+            ->setParameter(0,$idClient)
+            ->setParameter(1,$quantite)
+            ->setParameter(2,$idManifestant)
+        ;
+        return $queryBuilder->execute();
+    }
 }

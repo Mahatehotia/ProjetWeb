@@ -19,6 +19,7 @@ class PanierController implements ControllerProviderInterface{
 
     private $panierModel;
     private $clientModel;
+    private $manifestantModel;
 
     public function __construct(){
     }
@@ -43,5 +44,14 @@ class PanierController implements ControllerProviderInterface{
         $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
         $index->post("/ajouterManifestant", 'App\Controller\PanierController::show')->bind('panier.ajout');
         return $index;
+    }
+
+    public function addArticle(Application $app,$idManifestant,$quantite){
+        $this ->panierModel = new PanierModel($app);
+        $this ->clientModel = new ClientModel($app);
+        $manifestant = $this->manifestantModel->getAllManifestant();
+        $id = $this ->clientModel ->getIdUser();
+        $panier = $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
+        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
 }
