@@ -54,7 +54,7 @@ class PanierController implements ControllerProviderInterface{
             $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
         }
 
-        //return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
     public function removeArticle(Application $app){
