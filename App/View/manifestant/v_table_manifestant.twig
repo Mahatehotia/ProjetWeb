@@ -11,8 +11,29 @@
             <div class="column large-7">
                 <div class="row">Prix : {{manifestant.prix}} €</div>
                 <div class="row">Catégorie : {{ manifestant.libelle }}</div>
-                <div class="row">Quantité disponible : {{ manifestant.stock }}</div>
                 <div class="row" style="margin-top: 5px;">{{ manifestant.description }}</div>
+                <div class="row collapse" style="margin-top: 15px;">
+                    <form action="{{ url('panier.ajout') }}" method="post">
+                        <input type="hidden" name="idClient">
+                        <div class="row collapse">
+                            <label>Quantité</label>
+                            <div class="small-5 columns">
+                                <input id="quantite" name="quantite" type="number" min="1" max="{{ manifestant.stock }}" {% if manifestant.stock == 0 %} disabled value="0" {% else %} value="1" {% endif %}>
+                            </div>
+                            <div class="small-4 columns">
+                                <span class="postfix" style="font-style: italic;">{{ manifestant.stock }} disponible{% if manifestant.stock > 1 %}s{% endif %}</span>
+                            </div>
+                            <div class="small-3 columns">
+
+                                <input class="postfix button radius success
+                                {% if manifestant.stock == 0 %}
+                                    disabled
+                                {% endif %} " {% if manifestant.stock == 0 %} disabled {% endif %} type="submit" value="Ajouter">
+                            </div>
+                        </div>
+
+                </form>
+                </div>
             </div>
         </div>
     {% endfor %}

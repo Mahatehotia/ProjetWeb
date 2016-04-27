@@ -41,6 +41,7 @@ class PanierController implements ControllerProviderInterface{
     {
         $index = $app['controllers_factory'];
         $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
+        $index->post("/ajouterManifestant", 'App\Controller\PanierController::show')->bind('panier.ajout');
         return $index;
     }
 }

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS manifestant (
   id int(10) NOT NULL AUTO_INCREMENT,
   typeManifestant int(10) DEFAULT NULL,
   nom varchar(50) DEFAULT NULL,
+  description VARCHAR(500) DEFAULT NULL,
   prix float(6,2) DEFAULT NULL,
   photo varchar(50) DEFAULT NULL,
   stock int(11) NOT NULL,
@@ -22,10 +23,10 @@ CREATE TABLE IF NOT EXISTS manifestant (
   FOREIGN KEY (typeManifestant) REFERENCES typeManifestants (id)
 ) DEFAULT CHARSET=utf8 ;
 
-INSERT INTO manifestant (id,typeManifestant,nom,prix,photo,stock) VALUES
-(1,2, 'Nazi','100','Nazi.jpeg',5),
-(2,1, 'Femen','5.5','Femen.jpeg',4),
-(3,1, 'Pacifiste','8.5','Pacifiste.jpeg',10);
+INSERT INTO manifestant (id,typeManifestant,nom,prix,photo,stock, description) VALUES
+(1,2, 'Nazi','100','nazi.jpg',5, 'Nostalgique du logo rouge, noir et blanc, vous trouverez votre bonheur en louant les services de nos délicieux fans de l\'histoire de la Seconde Guerre Mondiale'),
+(2,1, 'Femen','5.5','femen.jpg',4, 'Les droits des femmes doivent être défendu mais être payé c\'est bien aussi alors participez en louant leur service'),
+(3,1, 'Pacifiste','8.5','pacifiste.jpg',0, 'Peace & Love');
 
 CREATE TABLE IF NOT EXISTS client (
   id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
