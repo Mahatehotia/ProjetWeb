@@ -92,7 +92,7 @@ class PanierModel{
             ->set('quantite', ':quantite')
             ->where('idClient = :idClient and idManifestant=:idManifestant')
             ->setParameter('idClient',$idClient)
-            ->setParameter('quantite',$this->getNombreInPanier($idClient,$idManifestant)-1)
+            ->setParameter('quantite',$this->getNombreInPanier($idClient,$idManifestant)-$quantite)
             ->setParameter('idManifestant',$idManifestant)
         ;
         return $queryBuilder->execute();
