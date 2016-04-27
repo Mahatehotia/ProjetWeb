@@ -12,10 +12,12 @@ use Silex\Application;
 
 class PanierModel{
     private $db;
+    private $manifestantModel;
 
     public function __construct(Application $app)
     {
         $this->db = $app['db'];
+        $this->manifestantModel = new ManifestantModel($app);
     }
 
     public function getPanierClient($idClient){
@@ -31,6 +33,11 @@ class PanierModel{
 
     public function addArticleClient($idClient,$idManifestant,$quantite){
         if ($idClient == null) return null;
+
+        if(!$this->manifestantModel->isMoreThan($idManifestant, $quantite))
+            return false;
+
+        $this->manifestantModel->prendreManifestant($idManifestant, $quantite);
 
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
@@ -61,6 +68,9 @@ class PanierModel{
         return $queryBuilder->execute()->fetch()['quantite'];
     }
     public function deleteArticleClient($idClient,$idManifestant){
+
+        $this->manifestantModel->rendreManifestant($idManifestant, $this->getNombreInPanier($idClient, $idManifestant));
+
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             -> delete('panier')
@@ -72,6 +82,11 @@ class PanierModel{
     }
 
     public function incArticleClient($idClient,$idManifestant,$quantite){
+        if(!$this->manifestantModel->isMoreThan($idManifestant, $quantite))
+            return false;
+
+        $this->manifestantModel->prendreManifestant($idManifestant, $quantite);
+
             $queryBuilder = new QueryBuilder($this->db);
             $queryBuilder
                 ->update('panier')
@@ -85,6 +100,9 @@ class PanierModel{
     }
 
     public function descArticleClient($idClient,$idManifestant,$quantite){
+
+        $this->manifestantModel->rendreManifestant($idManifestant, $quantite);
+
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->update('panier')

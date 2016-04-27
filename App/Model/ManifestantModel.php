@@ -32,9 +32,9 @@ class ManifestantModel{
     public function readUnManifestant($id){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('m.id','t.typeManifestant','m.nom','m.prix','m.quantites','m.photo','m.stock')
+            ->select('m.id','tM.libelle','m.nom','m.prix','m.photo','m.stock')
             ->from('manifestant','m')
-            ->innerJoin('m','typeManifestants', 't','m.typeManifestant=t.id')
+            ->innerJoin('m','typeManifestants', 'tM','m.typeManifestant=tM.id')
             ->where('m.id=:id')
 
             ->setParameter('id',$id);
