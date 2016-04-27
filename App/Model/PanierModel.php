@@ -46,4 +46,37 @@ class PanierModel{
         ;
         return $queryBuilder->execute();
     }
+
+    public function getNombreInPanier($idClient,$idManifestant){
+        if ($idClient==null) return null;
+
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            -> select('quantite')
+            ->from('panier')
+            ->where('panier.idClient=:id' and 'panier.idManifestant=:idManisfestant')
+            ->setParameter('id', $idClient)
+            ->setParameter('idManisfestant',$idManifestant)
+        ;
+        return $queryBuilder->execute();
+    }
+    public function deleteArticleClient($idClient,$idManifestant){}
+
+    public function incArticleClient($idClient,$idManifestant,$quantite){
+            $queryBuilder = new QueryBuilder($this->db);
+            $queryBuilder
+                ->insert('panier')
+                ->values([
+                    'idClient'=> '?',
+                    'quantite'=> '?',
+                    'idManifestant'=> '?'
+                ])
+                ->setParameter(0,$idClient)
+                ->setParameter(1,$this->getNombreInPanier($idClient,$idManifestant)+$quantite)
+                ->setParameter(2,$idManifestant)
+                ;
+            return $queryBuilder->execute();
+    }
+
+    public function descArticleClient($idClient,$idManifestant,$quantite){}
 }
