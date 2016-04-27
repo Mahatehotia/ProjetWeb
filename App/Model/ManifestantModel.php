@@ -48,4 +48,40 @@ class ManifestantModel{
             ->setParameter('id',$id);
         return $queryBuilder->execute();
     }
+
+    public function prendreManifestant($id, $quantite){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->update('manifestant')
+            ->set('stock', ':quantite')
+            ->setParameter('quantite', $this->readUnManifestant($id)['stock']-$quantite)
+            ->where('id = :id')
+            ->setParameter('id', $id);
+
+        $queryBuilder->execute();
+    }
+
+    public function rendreManifestant($id, $quantite){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->update('manifestant')
+            ->set('stock', ':quantite')
+            ->setParameter('quantite', $this->readUnManifestant($id)['stock']+$quantite)
+            ->where('id = :id')
+            ->setParameter('id', $id);
+
+        $queryBuilder->execute();
+    }
+
+    public function isMoreThan($id, $quantite){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->select('stock')
+            ->from('manifestant')
+            ->where('id=?')
+            ->setParameter(0, $id);
+        $stock = $queryBuilder->execute()->fetch()['stock'];
+
+        if($stock >= $quantite)
+            return true;
+        else
+            return false;
+    }
 }

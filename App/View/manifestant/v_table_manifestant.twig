@@ -89,8 +89,23 @@
                                 <td> {{ element.nom }}</td>
                                 <td> {{ element.prix }}</td>
                                 <td>
-                                    <a href="{{ url('panier.ajout') }}"> <span class="fi-plus"></span></a>
-                                    <a href="{{ url('panier.remove') }}"> <span class="fi-minus"></span></a>
+                                    <div class="row collapse">
+                                        <div class="columns small-6">
+                                            <form action="{{ url('panier.ajout') }}" method="post"  id="add{{ element.id }}">
+                                                <input type="hidden" value="{{ element.id }}" name="idManifestant">
+                                                <input type="hidden" value="1" name="quantite">
+                                            </form>
+                                            <button type="submit" form="add{{ element.id }}" class="radius success button prefix"><span class="fi-plus"></span></button>
+                                        </div>
+
+                                        <div class="columns small-6">
+                                            <form action="{{ url('panier.remove') }}" method="post"  id="remove{{ element.id }}">
+                                                <input type="hidden" value="{{ element.id }}" name="idManifestant">
+                                                <input type="hidden" value="1" name="quantite">
+                                            </form>
+                                            <button type="submit" form="remove{{ element.id }}" class="postfix radius button"><span class="fi-minus"></span></button>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}

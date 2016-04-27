@@ -63,8 +63,7 @@ class PanierModel{
     public function deleteArticleClient($idClient,$idManifestant){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            -> delete()
-            ->from('panier')
+            -> delete('panier')
             ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant')
             ->setParameter('id', $idClient)
             ->setParameter('idManisfestant',$idManifestant)
