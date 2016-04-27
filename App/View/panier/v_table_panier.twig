@@ -19,8 +19,11 @@
             <td> {{ objet.nom }}</td>
             <td> {{ objet.prix }}</td>
             <td>
-                <a href="#"> <span class="fi-plus"> Ajouter</span></a>
-                <a href="#"> <span class="fi-minus"> Supprimer </span></a>
+                <form target="{{ url('panier.ajout') }}" method="post">
+                    <input type="hidden" value="{{ objet.id }}" name="idManifestant">
+                    <input type="hidden" value="1" name="quantite">
+                    <button type="submit"><span class="fi-plus"> Ajouter</span></button></form>
+                <a href="{{ url('panier.remove') }}"> <span class="fi-minus"> Supprimer </span></a>
             </td>
             </tr>
             {% endfor %}
