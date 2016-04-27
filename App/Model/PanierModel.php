@@ -54,7 +54,7 @@ class PanierModel{
         $queryBuilder
             -> select('quantite')
             ->from('panier')
-            ->where('panier.idClient=:id' and 'panier.idManifestant=:idManisfestant')
+            ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant')
             ->setParameter('id', $idClient)
             ->setParameter('idManisfestant',$idManifestant)
         ;
@@ -65,7 +65,7 @@ class PanierModel{
         $queryBuilder
             -> delete()
             ->from('panier')
-            ->where('panier.idClient=:id' and 'panier.idManifestant=:idManisfestant')
+            ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant')
             ->setParameter('id', $idClient)
             ->setParameter('idManisfestant',$idManifestant)
         ;

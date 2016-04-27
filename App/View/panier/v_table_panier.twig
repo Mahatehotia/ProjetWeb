@@ -18,12 +18,24 @@
             <td>{{ objet.quantite }}</td>
             <td> {{ objet.nom }}</td>
             <td> {{ objet.prix }}</td>
-            <td>
-                <form action="{{ url('panier.ajout') }}" method="post"  id="{{ objet.id }}">
-                    <input type="hidden" value="{{ objet.id }}" name="idManifestant">
-                    <input type="hidden" value="1" name="quantite"></form>
-                    <button type="submit" form="{{ objet.id }}"><span class="fi-plus"> Ajouter</span></button>
-                <a href="{{ url('panier.remove') }}"> <span class="fi-minus"> Supprimer </span></a>
+            <td style="width: 40%;">
+                <div class="row collapse">
+                    <div class="columns small-6">
+                        <form action="{{ url('panier.ajout') }}" method="post"  id="add{{ objet.id }}">
+                            <input type="hidden" value="{{ objet.id }}" name="idManifestant">
+                            <input type="hidden" value="1" name="quantite">
+                        </form>
+                        <button type="submit" form="add{{ objet.id }}" class="radius success button prefix"><span class="fi-plus"> Ajouter</span></button>
+                    </div>
+
+                    <div class="columns small-6">
+                    <form action="{{ url('panier.remove') }}" method="post"  id="remove{{ objet.id }}">
+                        <input type="hidden" value="{{ objet.id }}" name="idManifestant">
+                        <input type="hidden" value="1" name="quantite">
+                    </form>
+                    <button type="submit" form="remove{{ objet.id }}" class="postfix radius button"><span class="fi-minus"> Enlever</span></button>
+                    </div>
+                </div>
             </td>
             </tr>
             {% endfor %}
