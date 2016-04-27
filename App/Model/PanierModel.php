@@ -60,7 +60,17 @@ class PanierModel{
         ;
         return $queryBuilder->execute()->fetch()['quantite'];
     }
-    public function deleteArticleClient($idClient,$idManifestant){}
+    public function deleteArticleClient($idClient,$idManifestant){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            -> delete()
+            ->from('panier')
+            ->where('panier.idClient=:id' and 'panier.idManifestant=:idManisfestant')
+            ->setParameter('id', $idClient)
+            ->setParameter('idManisfestant',$idManifestant)
+        ;
+        return $queryBuilder->execute();
+    }
 
     public function incArticleClient($idClient,$idManifestant,$quantite){
             $queryBuilder = new QueryBuilder($this->db);
@@ -75,5 +85,16 @@ class PanierModel{
             return $queryBuilder->execute();
     }
 
-    public function descArticleClient($idClient,$idManifestant,$quantite){}
+    public function descArticleClient($idClient,$idManifestant,$quantite){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->update('panier')
+            ->set('quantite', ':quantite')
+            ->where('idClient = :idClient and idManifestant=:idManifestant')
+            ->setParameter('idClient',$idClient)
+            ->setParameter('quantite',$this->getNombreInPanier($idClient,$idManifestant)-1)
+            ->setParameter('idManifestant',$idManifestant)
+        ;
+        return $queryBuilder->execute();
+    }
 }
