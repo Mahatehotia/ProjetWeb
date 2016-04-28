@@ -42,6 +42,8 @@ class CommandeController implements ControllerProviderInterface
     {   
         $index = $app['controllers_factory'];
 
+
+
         $index->get('/valide', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
         
         return $index;

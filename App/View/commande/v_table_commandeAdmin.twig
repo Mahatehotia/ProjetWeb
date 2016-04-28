@@ -1,0 +1,24 @@
+{% extends "v_layout.twig" %}
+{% block contenu %}
+    <table>
+        <caption> Les Commandes Clients </caption>
+        <thead>
+        <tr>
+            <th> IdClient </th>
+            <th> Détails commande </th>
+            <th> Date </th>
+            <th> Status </th>
+        </tr>
+        </thead>
+        <tbody>
+        <td> 1234 </td>
+        <td>
+            <li><ol> test </ol></li>
+            <li><ol> test2 </ol></li>
+        </td>
+        <td> xx/xx/xxxx </td>
+        <td> En Cours </td>
+        </tbody>
+    </table>
+    {% for commande in %}
+{% endblock %}
