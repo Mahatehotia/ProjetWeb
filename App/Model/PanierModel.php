@@ -31,6 +31,15 @@ class PanierModel{
         return $queryBuilder->execute()->fetchAll();
     }
 
+    public function getDetailCommande($idCommande){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->select('panier.quantite', 'm.nom', 'm.prix', 'm.id')
+            ->from('panier')->leftJoin('panier', 'manifestant', 'm', 'm.id=panier.idManifestant')
+            ->where('idCommande=:id')
+            ->setParameter('id', $idCommande);
+        return $queryBuilder->execute()->fetchAll();
+    }
+
     public function addArticleClient($idClient,$idManifestant,$quantite){
         if ($idClient == null) return null;
 
