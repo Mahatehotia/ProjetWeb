@@ -123,4 +123,11 @@ class PanierModel{
         ;
         return $queryBuilder->execute();
     }
+
+    public function annulerPanier($idClient){
+        //Récuperer le panier du client, rendre chaque élément (stock)
+        
+        $queryBuilder = new QueryBuilder($this->db);
+        //supprimer toutes les lignes avec idclient et commande = -1
+    }
 }

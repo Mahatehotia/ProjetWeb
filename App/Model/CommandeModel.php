@@ -29,6 +29,13 @@ class CommandeModel
         return $queryBuilder->execute()->fetchAll();
     }
 
+    public function getAllCommandesClient($idClient){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->select('idCommande', 'idclient', 'date', 'etat', 'total')
+            ->from('commande', 'c')->where('idClient=:idClient')->setParameter('idClient', $idClient);
+        return $queryBuilder->execute()->fetchAll();
+    }
+
     public function createCommande($idClient){
         $prix = 0;
         $panier = $this->panierModel->getPanierClient($idClient);
