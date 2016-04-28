@@ -13,7 +13,7 @@
                 <div class="row">Catégorie : {{ manifestant.libelle }}</div>
                 <div class="row" style="margin-top: 5px;">{{ manifestant.description }}</div>
                 <div class="row collapse" style="margin-top: 15px;">
-                    <form action="{{ url('panier2.ajout') }}" method="post">
+                    <form {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}action="{{ url('panier2.ajout') }}" method="post"{% else %}action="{{ url('client.login') }}" method="get"{% endif %}">
                         <input type="hidden" name="idManifestant" value="{{ manifestant.id }}">
                         <div class="row collapse">
                             <label>Quantité</label>
