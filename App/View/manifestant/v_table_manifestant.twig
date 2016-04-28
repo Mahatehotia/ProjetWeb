@@ -40,9 +40,9 @@
     {% endfor %}
         </div>
         <div class="column large-3 small-4">
+            {% if panier is not null and panier is not empty %}
             <div class="row">
                 <table>
-                    {% if panier is not null and panier is not empty %}
                     <caption> Votre Panier </caption>
                     <thead>
                     <tr>
@@ -80,24 +80,27 @@
                                 </td>
                             </tr>
                         {% endfor %}
-                        {% else %}
-                    {% endif %}
-
                     </tbody>
                 </table>
+
             </div>
             <div class="row">
                 {% set totalPrix = 0 %}
                 {% for element in panier %}
                     {% set totalPrix = totalPrix + element.prix*element.quantite %}
-                    {% endfor %}
+                {% endfor %}
                 {% if totalPrix!= 0 %}
-                <span> Montant Total: {{ totalPrix }} €</span>
-                    {% endif %}
+                    <span> Montant Total: {{ totalPrix }} €</span>
+                {% endif %}
             </div>
             <div class="row">
                 <a href="{{ url('panier.show') }}">Voir le panier / Payer</a>
             </div>
+            {% else %}
+                <div class="row">
+                    Votre panier est vide.
+                </div>
+            {% endif %}
 
         </div>
     </div>
