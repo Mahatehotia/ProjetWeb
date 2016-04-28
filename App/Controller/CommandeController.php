@@ -35,7 +35,7 @@ class CommandeController implements ControllerProviderInterface
 
         $this->commandeModel->createCommande($idClient);
 
-        //return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
     public function connect(Application $app)

@@ -33,8 +33,10 @@ class CommandeModel
         $prix = 0;
         $panier = $this->panierModel->getPanierClient($idClient);
         foreach ($panier as $manifestant){
+            //echo $manifestant['quantite'].'*'.$manifestant['prix'];
             $prix+=$manifestant['quantite']*$manifestant['prix'];
         }
+        //echo "Total : ".$prix;  
 
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->insert('commande')
