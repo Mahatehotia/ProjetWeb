@@ -53,7 +53,7 @@ class PanierController implements ControllerProviderInterface{
             echo "Initialisation";
             $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
         }
-
+        
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
