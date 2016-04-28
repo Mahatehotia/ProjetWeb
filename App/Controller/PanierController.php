@@ -69,7 +69,7 @@ class PanierController implements ControllerProviderInterface{
             $this->panierModel->deleteArticleClient($id, $idManifestant);
         }
 
-        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+        return $app->redirect($app["url_generator"]->generate('panier.show'));
     }
 
     public function connect(Application $app)
