@@ -25,7 +25,7 @@ class PanierModel{
             return null;
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->select('panier.quantite', 'm.nom', 'm.prix', 'm.id')
-            ->from('panier')->leftJoin('panier', 'manifestant', 'm', 'm.id=panier.idManifestant')
+            ->from('panier')->leftJoin('panier', 'manifestant', 'm', 'm.id=panier.idManifestant and idCommande=-1')
             ->where('panier.idClient=:id')
             ->setParameter('id', $idClient);
         return $queryBuilder->execute()->fetchAll();
@@ -61,7 +61,7 @@ class PanierModel{
         $queryBuilder
             -> select('quantite')
             ->from('panier')
-            ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant')
+            ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant and idCommande=-1')
             ->setParameter('id', $idClient)
             ->setParameter('idManisfestant',$idManifestant)
         ;
@@ -74,7 +74,7 @@ class PanierModel{
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             -> delete('panier')
-            ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant')
+            ->where('panier.idClient=:id and panier.idManifestant=:idManisfestant and idCommande=-1')
             ->setParameter('id', $idClient)
             ->setParameter('idManisfestant',$idManifestant)
         ;
@@ -91,7 +91,7 @@ class PanierModel{
             $queryBuilder
                 ->update('panier')
                 ->set('quantite', ':quantite')
-                ->where('idClient = :idClient and idManifestant=:idManifestant')
+                ->where('idClient = :idClient and idManifestant=:idManifestant and idCommande=-1')
                 ->setParameter('idClient',$idClient)
                 ->setParameter('quantite',$this->getNombreInPanier($idClient,$idManifestant)+$quantite)
                 ->setParameter('idManifestant',$idManifestant)
@@ -107,7 +107,7 @@ class PanierModel{
         $queryBuilder
             ->update('panier')
             ->set('quantite', ':quantite')
-            ->where('idClient = :idClient and idManifestant=:idManifestant')
+            ->where('idClient = :idClient and idManifestant=:idManifestant and idCommande=-1')
             ->setParameter('idClient',$idClient)
             ->setParameter('idManifestant',$idManifestant)
             ->setParameter('quantite',$this->getNombreInPanier($idClient,$idManifestant)-$quantite)

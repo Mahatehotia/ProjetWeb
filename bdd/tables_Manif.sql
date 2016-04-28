@@ -36,17 +36,30 @@ CREATE TABLE IF NOT EXISTS client (
   nom VARCHAR(25),
   prenom VARCHAR(25),
   droits ENUM ('admin', 'user')
-);
+) DEFAULT CHARSET=utf8 ;
 
 INSERT INTO client (email, mdp, nom, prenom, droits) VALUES
   ('pascal.phelipot@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Pascal', 'PHELIPOT', 'admin'),
   ('ralijaona.tiona@gmail.com', '098f6bcd4621d373cade4e832627b4f6', 'Tiona', 'RALIJAONA', 'user');
 
+
+CREATE TABLE commande(
+  idCommande int(10) AUTO_INCREMENT NOT NULL,
+  idClient int(10) NOT NULL,
+  date TIMESTAMP NOT NULL DEFAULT current_timestamp,
+  etat ENUM ('waiting', 'sold', 'send') DEFAULT 'waiting',
+  PRIMARY KEY (idCommande),
+  FOREIGN KEY (idClient) REFERENCES client(id)
+)DEFAULT CHARSET=utf8;
+
 CREATE TABLE panier(
   idClient int(10),
   quantite int(5),
   idManifestant int(10),
-  PRIMARY KEY (idClient, idManifestant),
+  idCommande int(10) DEFAULT -1,
+  PRIMARY KEY (idClient, idManifestant, idCommande),
   FOREIGN KEY (idClient) REFERENCES client(id),
   FOREIGN KEY (idManifestant) REFERENCES manifestant(id)
 ) DEFAULT CHARSET=utf8;
+
+
