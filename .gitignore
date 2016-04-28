@@ -1,3 +1,2 @@
-*.ids
-*.xml
+.idea/*
 config.php
