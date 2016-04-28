@@ -42,7 +42,7 @@ class CommandeController implements ControllerProviderInterface
     {   
         $index = $app['controllers_factory'];
 
-
+        $index->get('/showAdmin','App\Controller\CommandeController::listCommandesAdmin')->bind('commande.adminList');
 
         $index->get('/valide', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
         
