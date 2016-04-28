@@ -41,7 +41,15 @@
             {% endfor %}
             </tbody>
         </table>
-
+            <div class="row">
+                {% set totalPrix = 0 %}
+                {% for element in panier %}
+                    {% set totalPrix = totalPrix + element.prix*element.quantite %}
+                {% endfor %}
+                {% if totalPrix!= 0 %}
+                    <span> Montant Total: {{ totalPrix }} €</span>
+                {% endif %}
+            </div>
         <form action="{{ url('panier.valide') }}" method="post" id="valider">
             <button type="submit" form="valider" class="radius success"> <span class="success"></span> Passer Commande</button>
             <button type="reset" class="radius"> <span class="radius"></span> Annuler Commande </button>
