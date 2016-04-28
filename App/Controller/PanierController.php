@@ -54,6 +54,24 @@ class PanierController implements ControllerProviderInterface{
             $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
         }
         
+        return $app->redirect($app["url_generator"]->generate('panier.show'));
+    }
+
+    public function addArticlePanier(Application $app){
+        $idManifestant = $_POST['idManifestant'];
+        $quantite = $_POST['quantite'];
+        $this ->panierModel = new PanierModel($app);
+        $this ->clientModel = new ClientModel($app);
+        $this ->manifestantModel = new ManifestantModel($app);
+        $id = $this ->clientModel ->getIdUser();
+        if($this->panierModel->getNombreInPanier($id, $idManifestant) > 0){
+            echo "Incrementation";
+            $this->panierModel->incArticleClient($id, $idManifestant, $quantite);
+        }else{
+            echo "Initialisation";
+            $this->panierModel->addArticleClient($id,$idManifestant,$quantite);
+        }
+
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
@@ -92,7 +110,10 @@ class PanierController implements ControllerProviderInterface{
         $index = $app['controllers_factory'];
         $index->match("/", 'App\Controller\PanierController::show')->bind('panier.show');
         $index->post("/validerPanier", 'App\Controller\PanierController::panierValide')->bind('panier.valide');
+
         $index->post("/ajouterManifestant", 'App\Controller\PanierController::addArticle')->bind('panier.ajout');
+        $index->post("/ajouterManifestantPanier", 'App\Controller\PanierController::addArticle')->bind('panier2.ajout');
+
         $index->post("/enleverManifestant", 'App\Controller\PanierController::removeArticle')->bind('panier.remove');
         $index->post("/enleverManifestantPanier", 'App\Controller\PanierController::removeArticlePanier')->bind('panier2.remove');
         return $index;
