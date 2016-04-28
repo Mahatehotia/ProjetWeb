@@ -13,7 +13,7 @@
                 <div class="row">Catégorie : {{ manifestant.libelle }}</div>
                 <div class="row" style="margin-top: 5px;">{{ manifestant.description }}</div>
                 <div class="row collapse" style="margin-top: 15px;">
-                    <form action="{{ url('panier.ajout') }}" method="post">
+                    <form action="{{ url('panier2.ajout') }}" method="post">
                         <input type="hidden" name="idManifestant" value="{{ manifestant.id }}">
                         <div class="row collapse">
                             <label>Quantité</label>

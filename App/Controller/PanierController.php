@@ -112,7 +112,7 @@ class PanierController implements ControllerProviderInterface{
         $index->post("/validerPanier", 'App\Controller\PanierController::panierValide')->bind('panier.valide');
 
         $index->post("/ajouterManifestant", 'App\Controller\PanierController::addArticle')->bind('panier.ajout');
-        $index->post("/ajouterManifestantPanier", 'App\Controller\PanierController::addArticle')->bind('panier2.ajout');
+        $index->post("/ajouterManifestantPanier", 'App\Controller\PanierController::addArticlePanier')->bind('panier2.ajout');
 
         $index->post("/enleverManifestant", 'App\Controller\PanierController::removeArticle')->bind('panier.remove');
         $index->post("/enleverManifestantPanier", 'App\Controller\PanierController::removeArticlePanier')->bind('panier2.remove');
