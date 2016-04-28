@@ -46,5 +46,6 @@ $app->mount("/", new App\Controller\IndexController());
 $app->mount("/manifestant", new App\Controller\ManifestantController());
 $app->mount('/panier', new App\Controller\PanierController());
 $app->mount('/client', new App\Controller\ClientController());
+$app->mount('/commande', new App\Controller\CommandeController());
 
 $app->run();

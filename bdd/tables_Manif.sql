@@ -48,6 +48,7 @@ CREATE TABLE commande(
   idClient int(10) NOT NULL,
   date TIMESTAMP NOT NULL DEFAULT current_timestamp,
   etat ENUM ('waiting', 'sold', 'send') DEFAULT 'waiting',
+  total FLOAT(5, 2),
   PRIMARY KEY (idCommande),
   FOREIGN KEY (idClient) REFERENCES client(id)
 )DEFAULT CHARSET=utf8;

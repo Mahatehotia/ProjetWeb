@@ -9,7 +9,41 @@
 namespace App\Controller;
 
 
-class CommandeController
-{
+use App\Model\ClientModel;
+use App\Model\CommandeModel;
+use Silex\Application;
+use Silex\ControllerCollection;
+use Silex\ControllerProviderInterface;
 
+class CommandeController implements ControllerProviderInterface
+{
+    private $commandeModel;
+    private $clientModel;
+
+    public function listCommandesClient(){
+
+    }
+
+    public function listCommandesAdmin(){
+
+    }
+
+    public function validCommandeClient(Application $app){
+        $this->clientModel = new ClientModel($app);
+        $idClient = $this->clientModel->getIdUser();
+        $this->commandeModel = new CommandeModel($app);
+
+        $this->commandeModel->createCommande($idClient);
+
+        //return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+    }
+
+    public function connect(Application $app)
+    {   
+        $index = $app['controllers_factory'];
+
+        $index->get('/valide', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
+        
+        return $index;
+    }
 }
