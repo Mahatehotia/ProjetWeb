@@ -25,7 +25,8 @@
                             </div>
                             <div class="small-3 columns">
 
-                                <input class="postfix button radius success
+                                <input class="postfix button radius
+                                {% if manifestant.stock < 4 and manifestant.stock >0 %}warning {% else %}success {% endif %}
                                 {% if manifestant.stock == 0 %}
                                     disabled
                                 {% endif %} " {% if manifestant.stock == 0 %} disabled {% endif %} type="submit" value="Ajouter">
