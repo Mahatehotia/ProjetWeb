@@ -1,4 +1,32 @@
 {% extends "v_layout.twig" %}
 {% block contenu %}
-
+    <table>
+        <caption> Vos commandes </caption>
+        <thead>
+        <tr>
+            <th>N° Commande </th>
+            <th> IdClient </th>
+            <th> Détails commande </th>
+            <th class="text-center"> Date </th>
+            <th> Status </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for commande in data if data is not empty %}
+            <tr>
+                <td> {{ commande.idCommande }}</td>
+                <td> {{ commande.idClient }} </td>
+                <td>
+                    <ul>
+                        {% for liste in commande.detail if commande.detail is not empty %}
+                            <li>{{ liste.quantite }} x {{ liste.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td> {{ commande.date }}</td>
+                <td> {{ commande.etat }} </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -23,8 +23,15 @@ class CommandeController implements ControllerProviderInterface
     private $panierModel;
     private $manifestantModel;
 
-    public function listCommandesClient(){
-
+    public function listCommandesClient(Application $app){
+        $this->commandeModel = new CommandeModel($app);
+        $this->panierModel = new PanierModel($app);
+        $this->clientModel = new ClientModel($app);
+        $commandes= $this->commandeModel->getAllCommandesClient($this->clientModel->getIdUser());
+        for($i = 0; $i < count($commandes); $i++){
+            $commandes[$i]['detail']=$this->panierModel->getDetailCommande($commandes[$i]['idCommande']);;
+        }
+        return $app["twig"]->render('commande/v_table_commandeClient.twig',['data'=>$commandes,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
 
     public function listCommandesAdmin(Application $app){
@@ -52,6 +59,9 @@ class CommandeController implements ControllerProviderInterface
         $index = $app['controllers_factory'];
 
         $index->get('/showAdmin','App\Controller\CommandeController::listCommandesAdmin')->bind('commande.adminList');
+
+        $index->get('/showClient', 'App\Controller\CommandeController::listCommandesClient')->bind('commande.clienList');
+
 
         $index->get('/valide', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
         
