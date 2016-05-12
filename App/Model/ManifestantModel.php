@@ -42,11 +42,11 @@ class ManifestantModel{
                 'stock'=> '?',
             ])
             ->setParameter(0,$donnees['typeManifestant'])
-            ->setParameter(1,$donnees['nom'])
-            ->setParameter(2,$donnees['description'])
-            ->setParameter(3,$donnees['prix'])
-            ->setParameter(4,$donnees['photo'])
-            ->setParameter(5,$donnees['stock']);
+            ->setParameter(1,$donnees['nomManifestant'])
+            ->setParameter(2,$donnees['descriptionManifestant'])
+            ->setParameter(3,$donnees['prixManifestant'])
+            ->setParameter(4,$donnees['imageManifestant'])
+            ->setParameter(5,$donnees['quantiteManifestant']);
         return $queryBuilder->execute();
     }
 
