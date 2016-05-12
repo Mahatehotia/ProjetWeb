@@ -15,6 +15,7 @@ use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 
 use App\Model\ManifestantModel;
+use Symfony\Component\Validator\Constraints\Regex;
 
 
 class ManifestantController implements ControllerProviderInterface{
@@ -44,7 +45,35 @@ class ManifestantController implements ControllerProviderInterface{
         return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['types'=>$types,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function validAdd(Application $app){
+        $erreurs=array();
+        $donnees['typeManifestant']=htmlspecialchars($_POST['typeManifestant']);
+        $donnees['nomManifestant']=htmlspecialchars($_POST['nomManifestant']);
+        $donnees['descriptionManifestant']=htmlspecialchars($_POST['descriptionManifestant']);
+        $donnees['prixManifestant']=htmlspecialchars($_POST['prixManifestant']);
+        $donnees['imageManifestant']=htmlspecialchars($_POST['imageManifestant']);
+        $donnees['quantiteManifestant']=htmlspecialchars($_POST['quantiteManifestant']);
 
+        if(! is_numeric($donnees['typeManifestant']))$erreurs['typeManifestant']='sélectionner un Type de Manifestant';
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['nomManifestant']))) $erreurs['nomManifestant']='il manque un nom';
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['descriptionManifestant']))) $erreurs['descriptionManifestant']='il manque une description';
+        if(! is_numeric($donnees['prixManifestant']))$erreurs['prixManifestant']='saisir un montant';
+        if ((! preg_match("/jpg|png|jpeg/",$donnees['imageManifestant']))) $erreurs['imageManifestant']='choisir une image format (.jpg, .png ou .jpeg)';
+        if(! is_numeric($donnees['quantiteManifestant']))$erreurs['quantiteManifestant']='saisir un stock';
+        if(! empty($erreurs))
+        {
+            $this->typeManifestantModel = new TypeManifestantModel($app);
+            $types = $this->typeManifestantModel->getAllTypes();
+            $this->manifestantModel = new ManifestantModel($app);
+            $manifestant=$this->manifestantModel->getAllManifestant();
+            return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['types'=>$types,'donnees'=>$donnees,'erreurs'=>$erreurs,'manifestant' => $manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        }
+        else {
+
+            $this->manifestantModel = new ManifestantModel($app);
+            $this->manifestantModel->ajouterManifestant($donnees);
+            return $app->redirect($app["url_generator"]->generate("manifestant.index"));
+
+        }
     }
 
     public function deleteManifestant(Application $app, $id)
