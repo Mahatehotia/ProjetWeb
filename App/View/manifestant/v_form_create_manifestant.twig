@@ -2,7 +2,7 @@
 
 {% block contenu %}
 
-    <form action="{{ url('manifestant.add') }}" method="post">
+    <form action="{{ url('manifestant.add') }}" method="post" xmlns="http://www.w3.org/1999/html">
         <fieldset>
             <legend>Ajout d'un manifestant</legend>
             <label for="nomManifestant">Nom :</label>
@@ -15,6 +15,7 @@
                     {% endfor %}
                 {% endif %}
             </select>
+
             <div class="row collapse">
                 <label for="prixManifestant">Prix : </label>
                 <div class="small-9 columns">
@@ -24,8 +25,22 @@
                     <span class="postfix">€</span>
                 </div>
             </div>
+
+            <div class="row collapse">
+                <div class="small-3 columns">
+                    <label for="quantiteManifestant">Quantité :
+                        <input type="number" placeholder="" name="quantiteManifestant" id="quantiteManifestant" />
+                    </label>
+                </div>
+                <div class="small-8 columns">
+                    <label for="descriptionManifestant">Description :
+                        <textarea type="text" placeholder="" name="descriptionManifestant" id="descriptionManifestant" width="50"/></textarea>
+                    </label>
+            </div>
+            </div>
             <label for="imageManifestant" >Image</label><input id="imageManifestant" name="imageManifestant" type="file">
             <input type="submit" class="button success">
+            <input type="reset" form="annuler" class="radius button ">
         </fieldset>
 
     </form>
