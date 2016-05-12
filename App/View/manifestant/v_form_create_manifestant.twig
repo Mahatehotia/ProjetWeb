@@ -6,9 +6,12 @@
         <fieldset>
             <legend>Ajout d'un manifestant</legend>
             <label for="nomManifestant">Nom :</label>
-                <input type="text" name="nomManifestant" id="nomManifestant" placeholder="">
+                <input type="text" name="nomManifestant" id="nomManifestant" placeholder="" value="{% if donnees is defined %}{{donnees.nomManifestant}}{% endif %}">
+            {% if erreurs.nomManifestant is defined %}
+                <small class="error">{{erreurs.nomManifestant}}</small>
+            {% endif %}
             <label for="typeManifestant">Catégorie :</label>
-            <select name="typeManifestant" id="typeManifestant">
+            <select name="typeManifestant" id="typeManifestant" >
                 {% if types is not null and types is not empty %}
                     {% for type in types %}
                         <option value="{{ type.id }}">{{ type.libelle }}</option>
@@ -19,7 +22,10 @@
             <div class="row collapse">
                 <label for="prixManifestant">Prix : </label>
                 <div class="small-9 columns">
-                    <input type="number" placeholder="" name="prixManifestant" id="prixManifestant" />
+                    <input type="number" placeholder="" name="prixManifestant" id="prixManifestant" value="{% if donnees is defined %}{{donnees.prixManifestant}}{% endif %}"/>
+                    {% if erreurs.prixManifestant is defined %}
+                        <small class="error">{{erreurs.prixManifestant}}</small>
+                    {% endif %}
                 </div>
                 <div class="small-3 columns">
                     <span class="postfix">€</span>
@@ -29,16 +35,25 @@
             <div class="row collapse">
                 <div class="small-3 columns">
                     <label for="quantiteManifestant">Quantité :
-                        <input type="number" placeholder="" name="quantiteManifestant" id="quantiteManifestant" />
+                        <input type="number" placeholder="" name="quantiteManifestant" id="quantiteManifestant" value="{% if donnees is defined %}{{donnees.quantiteManifestant}}{% endif %}"/>
+                        {% if erreurs.quantiteManifestant is defined %}
+                            <small class="error">{{erreurs.quantiteManifestant}}</small>
+                        {% endif %}
                     </label>
                 </div>
                 <div class="small-8 columns">
                     <label for="descriptionManifestant">Description :
-                        <textarea type="text" placeholder="" name="descriptionManifestant" id="descriptionManifestant" width="50"/></textarea>
+                        <textarea type="text" placeholder="" name="descriptionManifestant" id="descriptionManifestant" width="50" value="{% if donnees is defined %}{{donnees.descriptionManifestant}}{% endif %}"/></textarea>
+                        {% if erreurs.descriptionManifestant is defined %}
+                            <small class="error">{{erreurs.descriptionManifestant}}</small>
+                        {% endif %}
                     </label>
             </div>
             </div>
-            <label for="imageManifestant" >Image</label><input id="imageManifestant" name="imageManifestant" type="file">
+            <label for="imageManifestant" >Image</label><input id="imageManifestant" name="imageManifestant" type="file" value="{% if donnees is defined %}{{donnees.imageManifestant}}{% endif %}">
+            {% if erreurs.imageManifestant is defined %}
+                <small class="error">{{erreurs.imageManifestant}}</small>
+            {% endif %}
             <input type="submit" class="button success">
             <input type="reset" form="annuler" class="radius button ">
         </fieldset>
