@@ -29,6 +29,27 @@ class ManifestantModel{
         return $queryBuilder->execute()->fetchAll();
     }
 
+    public function ajouterManifestant($donnees){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->insert('manifestant')
+            ->values([
+                'typeManifestant' => '?',
+                'nom' => '?',
+                'description' => '?',
+                'prix' => '?',
+                'photo'=> '?',
+                'stock'=> '?',
+            ])
+            ->setParameter(0,$donnees['typeManifestant'])
+            ->setParameter(1,$donnees['nomManifestant'])
+            ->setParameter(2,$donnees['descriptionManifestant'])
+            ->setParameter(3,$donnees['prixManifestant'])
+            ->setParameter(4,$donnees['imageManifestant'])
+            ->setParameter(5,$donnees['quantiteManifestant']);
+        return $queryBuilder->execute();
+    }
+
     public function readUnManifestant($id){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
