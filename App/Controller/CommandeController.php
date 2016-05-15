@@ -60,7 +60,7 @@ class CommandeController implements ControllerProviderInterface
 
         $index->get('/showAdmin','App\Controller\CommandeController::listCommandesAdmin')->bind('commande.adminList');
 
-        $index->get('/showClient', 'App\Controller\CommandeController::listCommandesClient')->bind('commande.clienList');
+        $index->get('/showClient', 'App\Controller\CommandeController::listCommandesClient')->bind('commande.clientList');
 
 
         $index->get('/valide', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');

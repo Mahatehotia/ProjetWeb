@@ -12,7 +12,8 @@
             <li class="divider"></li>
             <li><a href="{{ path('manifestant.show') }}">Commandez votre manifestation !</a></li>
             {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}
-            <li><a href="{{ path('panier.show') }}">Votre Panier</a></li>
+                <li><a href="{{ path('panier.show') }}">Votre Panier</a></li>
+                <li><a href="{{ path('commande.clientList') }}">Vos Commandes</a></li>
             {% endif %}
         </ul>
         {% if app.session.get('logged') is defined and app.session.get('logged') == 1 and app.session.get('droit') == 'admin' %}
