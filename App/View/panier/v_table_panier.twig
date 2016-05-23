@@ -54,6 +54,7 @@
             <button type="submit" form="valider" class="radius success"> <span class="success"></span> Passer Commande</button>
             <button type="reset" class="radius"> <span class="radius"></span> Annuler Commande </button>
         </form>
+            <p><a href="{{ url('panier.vider') }}">Vider mon panier</a></p>
         {% else %}
             <p>Votre panier est vide. <a href="{{ url('manifestant.show') }}">Retourner faire des courses</a></p>
         {% endif %}
