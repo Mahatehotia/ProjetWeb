@@ -129,5 +129,8 @@ class PanierModel{
         
         $queryBuilder = new QueryBuilder($this->db);
         //supprimer toutes les lignes avec idclient et commande = -1
+
+        //TODO : Finit ça pascal
+
     }
 }

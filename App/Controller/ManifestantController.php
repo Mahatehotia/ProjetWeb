@@ -91,7 +91,6 @@ class ManifestantController implements ControllerProviderInterface{
      */
     public function connect(Application $app)
     {
-        // TODO: Implement connect() method.
         $index = $app['controllers_factory'];
         $index->match("/", 'App\Controller\ManifestantController::index')->bind('manifestant.index');
 
