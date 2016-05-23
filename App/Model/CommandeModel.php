@@ -67,4 +67,26 @@ class CommandeModel
             ->setParameter('id', $id);
         $queryBuilder->execute();
     }
+
+    public function validerCommande($idClient,$idCommande){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->update('commande')
+            ->set('etat',':etat')
+            ->where('idClient =:client and idCommande = :id')
+            ->setParameter('client',$idClient)
+            ->setParameter('id',$idCommande)
+            ->setParameter('etat','\'sold\'');
+        $queryBuilder->execute();
+    }
+
+    public function envoyerCommande($idClient,$idCommande){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->update('commande')
+            ->set('etat',':etat')
+            ->where('idClient =:client and idCommande = :id')
+            ->setParameter('client',$idClient)
+            ->setParameter('id',$idCommande)
+            ->setParameter('etat','\'send\'');
+        $queryBuilder->execute();
+    }
 }
