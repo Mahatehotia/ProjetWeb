@@ -105,6 +105,16 @@ class PanierController implements ControllerProviderInterface{
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
+    public function vider(Application $app){
+        $this ->panierModel = new PanierModel($app);
+        $this ->clientModel = new ClientModel($app);
+        $id = $this ->clientModel ->getIdUser();
+
+        $this->panierModel->annulerPanier($id);
+
+        return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+    }
+
     public function connect(Application $app)
     {
         $index = $app['controllers_factory'];
@@ -116,6 +126,9 @@ class PanierController implements ControllerProviderInterface{
 
         $index->post("/enleverManifestant", 'App\Controller\PanierController::removeArticle')->bind('panier.remove');
         $index->post("/enleverManifestantPanier", 'App\Controller\PanierController::removeArticlePanier')->bind('panier2.remove');
+
+        $index->get("/viderPanier", 'App\Controller\PanierController::vider')->bind('panier.vider');
+
         return $index;
     }
 }

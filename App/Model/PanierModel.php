@@ -126,11 +126,10 @@ class PanierModel{
 
     public function annulerPanier($idClient){
         //Récuperer le panier du client, rendre chaque élément (stock)
-        
-        $queryBuilder = new QueryBuilder($this->db);
-        //supprimer toutes les lignes avec idclient et commande = -1
+        $panierActuelle = $this->getPanierClient($idClient);
 
-        //TODO : Finit ça pascal
-
+        foreach($panierActuelle as $produit){
+            $this->deleteArticleClient($idClient, $produit['id']);
+        }
     }
 }
