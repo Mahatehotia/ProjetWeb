@@ -45,9 +45,25 @@ class ClientModel
         return null;
     }
 
-    public function getFicheClient($idClient){
+    public function getAllFicheClient(){
         $queryBuilder = new QueryBuilder($this->connexionSql);
         $queryBuilder->select('nom', 'prenom','email')
+            ->from('client');
+        return $queryBuilder->execute()->fetchAll();
+    }
+
+    public function verifierDroit($id){
+        $queryBuilder = new QueryBuilder($this->connexionSql);
+        $queryBuilder -> select('*')
+            ->from('client')
+            ->where('id = :idUser')
+            ->setParameter('idUser',$id);
+        return $queryBuilder->execute()->fetch();
+    }
+
+    public function getFicheClient($idClient){
+        $queryBuilder = new QueryBuilder($this->connexionSql);
+        $queryBuilder->select('nom', 'prenom','email','droits')
             ->from('client')
             ->where('id = :idClient')
             ->setParameter('idClient',$idClient);

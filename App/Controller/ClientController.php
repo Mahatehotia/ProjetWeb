@@ -69,6 +69,17 @@ class ClientController implements ControllerProviderInterface
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
 
+    public function ficheAllClient(Application $app){
+        $this -> clientModel = new ClientModel($app);
+        $idClient=$this->clientModel->getIdUser();
+        $droits = $this->clientModel->getFicheClient($idClient);
+        if ($droits.['droits']=='user')
+            return $app['twig']->redirect($app["url_generator"]->generate('manifestant.show'));
+
+        $allClients=$this->clientModel->getAllFicheClient();
+        return $app["twig"]->render('client/v_ficheAllClient.twig',['droits'=>$droits,'clients'=>$allClients,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+    }
+
 
 
     public function connect(Application $app)
@@ -78,6 +89,7 @@ class ClientController implements ControllerProviderInterface
         $index->get("/logout", 'App\Controller\ClientController::logout')->bind('client.logout');
         $index->get("/login", 'App\Controller\ClientController::loginForm')->bind('client.login');
         $index->get("/ficheClient", 'App\Controller\ClientController::ficheClient')->bind('client.ficheClient');
+        $index->get("/ficheAllClient", 'App\Controller\ClientController::ficheAllClient')->bind('client.ficheAllClient');
         $index->post("/login", 'App\Controller\ClientController::loginValid');
         $index->get("/info", 'App\Controller\ClientController::index');
 
