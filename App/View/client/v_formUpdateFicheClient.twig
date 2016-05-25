@@ -12,7 +12,7 @@
             <div class="large-4 small-12 columns">
                 <img src="http://placehold.it/500x500&amp;text=Avatar">
                 <div class="hide-for-small panel">
-                    <input name="id"  type="hidden" value="{{donnees.id}}" />
+                    <form method="post" action="{{ url('updateClient.edit') }}">
                     <h3>Nom Prenom: </h3>
                     <h5 class="subheader">
                         <input name="nom" value="{{ donnees.nom }}" />
@@ -20,6 +20,8 @@
                     </h5>
                     <h4> Adresse Mail: </h4>
                     <h5> <input name="email" value="{{ donnees.email }}"/> </h5>
+                    <input type="submit" value="Valider" />
+                    </form>
                 </div><a href="#">
                     <div class="panel callout radius">
                         <h6>{% set totalPrix = 0 %}
