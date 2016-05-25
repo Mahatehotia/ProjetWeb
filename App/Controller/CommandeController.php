@@ -35,16 +35,21 @@ class CommandeController implements ControllerProviderInterface
     }
 
     public function listCommandesAdmin(Application $app){
-        $this->commandeModel = new CommandeModel($app);
-        $this->panierModel = new PanierModel($app);
-        $commandes= $this->commandeModel->getAllCommandes();
-        for($i = 0; $i < count($commandes); $i++){
-            $commandes[$i]['detail']=$this->panierModel->getDetailCommande($commandes[$i]['idCommande']);;
+        $this->clientModel = new ClientModel($app);
+        if($this->clientModel->estAdmin()){
+            $this->commandeModel = new CommandeModel($app);
+            $this->panierModel = new PanierModel($app);
+            $commandes = $this->commandeModel->getAllCommandes();
+            for ($i = 0; $i < count($commandes); $i++) {
+                $commandes[$i]['detail'] = $this->panierModel->getDetailCommande($commandes[$i]['idCommande']);;
+            }
+            return $app["twig"]->render('commande/v_table_commandeAdmin.twig', ['data' => $commandes, 'path' => BASE_URL, '_SESSION' => $_SESSION]);
         }
-        return $app["twig"]->render('commande/v_table_commandeAdmin.twig',['data'=>$commandes,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+        return $app->redirect($app["url_generator"]->generate('client.login'));
     }
 
-    public function validCommandeClient(Application $app){
+    public function createCommandeClient(Application $app){
         $this->clientModel = new ClientModel($app);
         $idClient = $this->clientModel->getIdUser();
         $this->commandeModel = new CommandeModel($app);
@@ -52,6 +57,17 @@ class CommandeController implements ControllerProviderInterface
         $this->commandeModel->createCommande($idClient);
 
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
+    }
+    
+    public function validCommandeClient(Application $app){
+        $this->commandeModel = new CommandeModel($app);
+        $this->clientModel = new ClientModel($app);
+
+        if($this->clientModel->estAdmin() &&  isset($_POST['idCommande']) && is_numeric($_POST['idCommande']) && isset($_POST['idClient']) && is_numeric($_POST['idClient'])){
+            $this->commandeModel->validerCommande($_POST['idClient'], $_POST['idCommande']);
+        }
+
+        return $app->redirect($app["url_generator"]->generate('commande.adminList'));
     }
 
     public function connect(Application $app)
@@ -62,9 +78,12 @@ class CommandeController implements ControllerProviderInterface
 
         $index->get('/showClient', 'App\Controller\CommandeController::listCommandesClient')->bind('commande.clientList');
 
+        $index->get('/valide', 'App\Controller\CommandeController::createCommandeClient')->bind('commande.creer');
 
-        $index->get('/valide', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
-        
+        //Administration d'une commande
+        $index->put('/validerCommande', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
+
+
         return $index;
     }
 }

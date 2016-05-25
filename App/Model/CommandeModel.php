@@ -75,7 +75,7 @@ class CommandeModel
             ->where('idClient =:client and idCommande = :id')
             ->setParameter('client',$idClient)
             ->setParameter('id',$idCommande)
-            ->setParameter('etat','\'sold\'');
+            ->setParameter('etat','send');
         $queryBuilder->execute();
     }
 

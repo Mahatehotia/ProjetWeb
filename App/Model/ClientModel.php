@@ -70,4 +70,17 @@ class ClientModel
         return $queryBuilder->execute()->fetch();
     }
 
+    public function estAdmin(){
+        $id = $this->getIdUser();
+
+        $queryBuilder = new QueryBuilder($this->connexionSql);
+        $queryBuilder -> select('droits')
+            ->from('client')
+            ->where('id = :idUser and droits=:d')
+            ->setParameter('idUser',$id)
+            ->setParameter('d', 'admin');
+
+        return ($queryBuilder->execute()->rowCount() == 1);
+    }
+
 }
