@@ -45,4 +45,13 @@ class ClientModel
         return null;
     }
 
+    public function getFicheClient($idClient){
+        $queryBuilder = new QueryBuilder($this->connexionSql);
+        $queryBuilder->select('nom', 'prenom','email')
+            ->from('client')
+            ->where('id = :idClient')
+            ->setParameter('idClient',$idClient);
+        return $queryBuilder->execute()->fetch();
+    }
+
 }

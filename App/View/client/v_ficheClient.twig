@@ -1,0 +1,40 @@
+{% extends "v_layout.twig" %}
+{% block contenu %}
+    <div class="row">
+            @mail: {{ donnees.email }}
+            Nom: {{ donnees.nom }}
+            Prenom: {{ donnees.prenom }}
+    </div>
+
+    <div class="row">
+            <table>
+                <caption> Vos commandes </caption>
+                <thead>
+                <tr>
+                    <th>N° Commande </th>
+                    <th> IdClient </th>
+                    <th> Détails commande </th>
+                    <th class="text-center"> Date </th>
+                    <th> Status </th>
+                </tr>
+                </thead>
+                <tbody>
+            {% for panier in commandes if commandes is not empty %}
+                <tr>
+                    <td> {{ panier.idCommande }}</td>
+                    <td> {{ panier.idClient }} </td>
+                    <td>
+                        <ul>
+                            {% for liste in panier.detail if panier.detail is not empty %}
+                                <li>{{ liste.quantite }} x {{ liste.nom }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td> {{ panier.date }}</td>
+                    <td> {{ panier.etat }} </td>
+                </tr>
+            {% endfor %}
+                </tbody>
+            </table>
+    </div>
+{% endblock %}

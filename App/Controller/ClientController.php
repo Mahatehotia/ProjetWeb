@@ -11,6 +11,8 @@ namespace App\Controller;
 
 
 use App\Model\ClientModel;
+use App\Model\CommandeModel;
+use App\Model\PanierModel;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
 
@@ -44,6 +46,22 @@ class ClientController implements ControllerProviderInterface
             return $app->redirect($app["url_generator"]->generate('manifestant.show'));
         }
     }
+    public function ficheClient(Application $app){
+        $this->clientModel = new ClientModel($app);
+        $idClient=$this->clientModel->getIdUser();
+        $this->panierModel = new PanierModel($app);
+        if ($idClient==null) {
+            return $app['twig']->render('client/v_login_form.twig', array('path'=>BASE_URL));
+        }
+        $this->commandeModel = new CommandeModel($app);
+        $commandes= $this->commandeModel->getAllCommandesClient($idClient);
+        $donnees = $this->clientModel->getFicheClient($idClient);
+
+        for($i = 0; $i < count($commandes); $i++){
+            $commandes[$i]['detail']=$this->panierModel->getDetailCommande($commandes[$i]['idCommande']);;
+        }
+            return $app["twig"]->render('client/v_ficheClient.twig',['donnees'=>$donnees,'commandes'=>$commandes,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        }
 
     public function logout(Application $app){
         $app['session']->clear();
@@ -59,6 +77,7 @@ class ClientController implements ControllerProviderInterface
         $index->match("/", 'App\Controller\ClientController::index');
         $index->get("/logout", 'App\Controller\ClientController::logout')->bind('client.logout');
         $index->get("/login", 'App\Controller\ClientController::loginForm')->bind('client.login');
+        $index->get("/ficheClient", 'App\Controller\ClientController::ficheClient')->bind('client.ficheClient');
         $index->post("/login", 'App\Controller\ClientController::loginValid');
         $index->get("/info", 'App\Controller\ClientController::index');
 
