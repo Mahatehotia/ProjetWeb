@@ -66,6 +66,16 @@ class CommandeController implements ControllerProviderInterface
 
         $this->commandeModel->createCommande($idClient);
 
+        //Mail confirmant la création d'une commande
+        $to      = $this->clientModel->getFicheClient($idClient)['email'];
+        $subject = 'Votre commande a bien été passée';
+        $message = 'Nous vous informons de la bonne réception de votre commande, elle sera traitée dans les plus brefs délais.';
+        $headers = 'From: vendeur@manifestons.com' . "\r\n" .
+            'Reply-To: vendeur@manifestons.com' . "\r\n" .
+            'X-Mailer: PHP/' . phpversion();
+
+        mail($to, $subject, $message, $headers);
+
         return $app->redirect($app["url_generator"]->generate('manifestant.show'));
     }
     

@@ -108,4 +108,22 @@ class ClientModel
         $queryBuilder->execute();
     }
 
+    public function inscription($nom, $prenom, $email, $mdp, $droits='user'){
+        $queryBuilder = new QueryBuilder($this->connexionSql);
+        $queryBuilder->insert('client')
+            ->values([
+                'nom' => '?',
+                'prenom' => '?',
+                'email' => '?',
+                'mdp' => 'MD5(?)',
+                'droits' => $droits
+            ])
+            ->setParameter(0, $nom)
+            ->setParameter(1, $prenom)
+            ->setParameter(2, $email)
+            ->setParameter(3, $mdp);
+
+        $queryBuilder->execute();
+    }
+
 }

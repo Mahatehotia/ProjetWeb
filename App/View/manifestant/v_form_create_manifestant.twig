@@ -2,7 +2,7 @@
 
 {% block contenu %}
 
-    <form action="{{ url('manifestant.add') }}" method="post" xmlns="http://www.w3.org/1999/html">
+    <form action="{{ url('manifestant.add') }}" method="post" enctype="multipart/form-data">
         <fieldset>
             <legend>Ajout d'un manifestant</legend>
             <label for="nomManifestant">Nom :</label>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="small-8 columns">
                     <label for="descriptionManifestant">Description :
-                        <textarea type="text" placeholder="" name="descriptionManifestant" id="descriptionManifestant" width="50" value="{% if donnees is defined %}{{donnees.descriptionManifestant}}{% endif %}"/></textarea>
+                        <input type="text" placeholder="Description" name="descriptionManifestant" id="descriptionManifestant" width="50" {% if donnees is defined %}value="{{donnees.descriptionManifestant}}"{% endif %} /></textarea>
                         {% if erreurs.descriptionManifestant is defined %}
                             <small class="error">{{erreurs.descriptionManifestant}}</small>
                         {% endif %}

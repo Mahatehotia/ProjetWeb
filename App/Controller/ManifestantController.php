@@ -65,17 +65,18 @@ class ManifestantController implements ControllerProviderInterface{
         $donnees['nomManifestant']=htmlspecialchars($_POST['nomManifestant']);
         $donnees['descriptionManifestant']=htmlspecialchars($_POST['descriptionManifestant']);
         $donnees['prixManifestant']=htmlspecialchars($_POST['prixManifestant']);
-        $donnees['imageManifestant']=htmlspecialchars($_POST['imageManifestant']);
+        $donnees['imageManifestant']=htmlspecialchars($_FILES['imageManifestant']['name']);
         $donnees['quantiteManifestant']=htmlspecialchars($_POST['quantiteManifestant']);
 
         if(! is_numeric($donnees['typeManifestant']))$erreurs['typeManifestant']='sélectionner un Type de Manifestant';
         if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['nomManifestant']))) $erreurs['nomManifestant']='il manque un nom';
         if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['descriptionManifestant']))) $erreurs['descriptionManifestant']='il manque une description';
         if(!is_numeric($donnees['prixManifestant']) and ($donnees['prixManifestant'])<0)$erreurs['prixManifestant']='saisir un montant';
-        if ((! preg_match("/jpg|png|jpeg/",$donnees['imageManifestant']))) $erreurs['imageManifestant']='choisir une image format (.jpg, .png ou .jpeg)';
+        if (preg_match("([^\s]+(\.(?i)(jpe?g|png|gif|bmp))$)",$donnees['imageManifestant']) != 1) $erreurs['imageManifestant']='choisir une image format (.jpg, .png ou .jpeg)';
         if(! is_numeric($donnees['quantiteManifestant']))$erreurs['quantiteManifestant']='saisir un stock';
         if(! empty($erreurs))
         {
+            print_r($_FILES);
             $this->typeManifestantModel = new TypeManifestantModel($app);
             $types = $this->typeManifestantModel->getAllTypes();
             $this->manifestantModel = new ManifestantModel($app);
@@ -83,6 +84,17 @@ class ManifestantController implements ControllerProviderInterface{
             return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['types'=>$types,'donnees'=>$donnees,'erreurs'=>$erreurs,'manifestant' => $manifestant,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
         }
         else {
+            if (isset ($_FILES['imageManifestant'])){
+                $imagename = $_FILES['imageManifestant']['name'];
+                $source = $_FILES['imageManifestant']['tmp_name'];
+                $target = "images/".$imagename;
+
+                move_uploaded_file($source, $target);
+
+                $donnees['imageManifestant'] = $target;
+            }
+            //TODO : Error (fichier image vide ? :'( )
+
 
             $this->manifestantModel = new ManifestantModel($app);
             $this->manifestantModel->ajouterManifestant($donnees);
@@ -104,13 +116,8 @@ class ManifestantController implements ControllerProviderInterface{
         $manifestant = $this->manifestantModel->readUnManifestant($id);
         return "delete Manifestant";
     }
-    /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
-     */
+
+    
     public function connect(Application $app)
     {
         $index = $app['controllers_factory'];
