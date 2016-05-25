@@ -73,6 +73,9 @@ class ClientModel
     public function estAdmin(){
         $id = $this->getIdUser();
 
+        if($id == null)
+            return false;
+
         $queryBuilder = new QueryBuilder($this->connexionSql);
         $queryBuilder -> select('droits')
             ->from('client')
