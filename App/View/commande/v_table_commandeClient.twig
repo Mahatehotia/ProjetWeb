@@ -23,7 +23,15 @@
                     </ul>
                 </td>
                 <td> {{ commande.date }}</td>
-                <td> {{ commande.etat }} </td>
+                <td>
+                    {% if commande.etat == 'canceled' %}
+                        Annulée
+                    {% elseif commande.etat == 'send' %}
+                        Expédiée
+                    {% else %}
+                        En attente
+                    {% endif %}
+                </td>
             </tr>
         {% endfor %}
         </tbody>

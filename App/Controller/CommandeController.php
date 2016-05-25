@@ -21,9 +21,13 @@ class CommandeController implements ControllerProviderInterface
     private $commandeModel;
     private $clientModel;
     private $panierModel;
-    private $manifestantModel;
 
     public function listCommandesClient(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $this->commandeModel = new CommandeModel($app);
         $this->panierModel = new PanierModel($app);
         $this->clientModel = new ClientModel($app);
@@ -51,6 +55,12 @@ class CommandeController implements ControllerProviderInterface
 
     public function createCommandeClient(Application $app){
         $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
+        $this->clientModel = new ClientModel($app);
         $idClient = $this->clientModel->getIdUser();
         $this->commandeModel = new CommandeModel($app);
 
@@ -63,8 +73,29 @@ class CommandeController implements ControllerProviderInterface
         $this->commandeModel = new CommandeModel($app);
         $this->clientModel = new ClientModel($app);
 
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         if($this->clientModel->estAdmin() &&  isset($_POST['idCommande']) && is_numeric($_POST['idCommande']) && isset($_POST['idClient']) && is_numeric($_POST['idClient'])){
             $this->commandeModel->validerCommande($_POST['idClient'], $_POST['idCommande']);
+        }
+
+        return $app->redirect($app["url_generator"]->generate('commande.adminList'));
+    }
+
+    public function annulerCommandeClient(Application $app){
+        $this->commandeModel = new CommandeModel($app);
+        $this->clientModel = new ClientModel($app);
+
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
+        if($this->clientModel->estAdmin() &&  isset($_POST['idCommande']) && is_numeric($_POST['idCommande']) && isset($_POST['idClient']) && is_numeric($_POST['idClient'])){
+            $this->commandeModel->annulerCommande($_POST['idClient'], $_POST['idCommande']);
         }
 
         return $app->redirect($app["url_generator"]->generate('commande.adminList'));
@@ -82,7 +113,7 @@ class CommandeController implements ControllerProviderInterface
 
         //Administration d'une commande
         $index->put('/validerCommande', 'App\Controller\CommandeController::validCommandeClient')->bind('commande.valider');
-
+        $index->put('/annulerCommande', 'App\Controller\CommandeController::annulerCommandeClient')->bind('commande.annuler');
 
         return $index;
     }

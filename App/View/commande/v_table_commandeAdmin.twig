@@ -26,17 +26,29 @@
                     </ul>
                 </td>
                 <td> {{ commande.date }}</td>
-                <td> {{ commande.etat }} </td>
+                <td> {% if commande.etat == 'canceled' %}
+                        Annulée
+                    {% elseif commande.etat == 'send' %}
+                        Expédiée
+                    {% else %}
+                        En attente
+                    {% endif %} </td>
                 <td>
                     <div class="row collapse">
                         <div class="columns small-6">
-                            <form action="#" method="get" id="valider">
-                                <button type="submit" form="valider}" class="radius success button"><span class="success">Valider</span></button>
+                            <form action="{{ url('commande.valider') }}" method="post" id="valider{{ commande.idCommande }}">
+                                <input type="hidden" id="_method" name="_method" value="PUT" />
+                                <input type="hidden" name="idCommande" value="{{ commande.idCommande }}" />
+                                <input type="hidden" name="idClient" value="{{ commande.idClient }}" />
+                                <button type="submit" form="valider{{ commande.idCommande }}" class="radius success button"><span class="success">Valider</span></button>
                             </form>
                         </div>
                         <div class="columns small-6">
-                            <form action="#" method="get" id="annuler">
-                                <button type="submit" form="annuler" class="radius button "><span class="radius">Annuler</span></button>
+                            <form action="{{ url('commande.annuler') }}" method="post" id="annuler{{ commande.idCommande }}">
+                                <input type="hidden" id="_method" name="_method" value="PUT" />
+                                <input type="hidden" name="idCommande" value="{{ commande.idCommande }}" />
+                                <input type="hidden" name="idClient" value="{{ commande.idClient }}" />
+                                <button type="submit" form="annuler{{ commande.idCommande }}" class="radius button "><span class="radius">Annuler</span></button>
                             </form>
                         </div>
                     </div>

@@ -30,6 +30,12 @@ class PanierController implements ControllerProviderInterface{
     }
 
     public function show(Application $app) {
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         $this->panierModel = new PanierModel($app);
         $this->clientModel = new ClientModel($app);
         $id = $this->clientModel->getIdUser();
@@ -40,6 +46,11 @@ class PanierController implements ControllerProviderInterface{
 
 
     public function addArticle(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $idManifestant = $_POST['idManifestant'];
         $quantite = $_POST['quantite'];
         $this ->panierModel = new PanierModel($app);
@@ -58,6 +69,11 @@ class PanierController implements ControllerProviderInterface{
     }
 
     public function addArticlePanier(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $idManifestant = $_POST['idManifestant'];
         $quantite = $_POST['quantite'];
         $this ->panierModel = new PanierModel($app);
@@ -76,6 +92,11 @@ class PanierController implements ControllerProviderInterface{
     }
 
     public function removeArticle(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $idManifestant = $idManifestant = $_POST['idManifestant'];
         $this ->panierModel = new PanierModel($app);
         $this ->clientModel = new ClientModel($app);
@@ -91,6 +112,11 @@ class PanierController implements ControllerProviderInterface{
     }
 
     public function removeArticlePanier(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $idManifestant = $idManifestant = $_POST['idManifestant'];
         $this ->panierModel = new PanierModel($app);
         $this ->clientModel = new ClientModel($app);
@@ -106,6 +132,12 @@ class PanierController implements ControllerProviderInterface{
     }
 
     public function vider(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         $this ->panierModel = new PanierModel($app);
         $this ->clientModel = new ClientModel($app);
         $id = $this ->clientModel ->getIdUser();

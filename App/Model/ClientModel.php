@@ -83,6 +83,11 @@ class ClientModel
         return ($queryBuilder->execute()->rowCount() == 1);
     }
 
+    public function estClient(){
+
+        return ($this->getIdUser() != null);
+    }
+
     public function updateFicheClient($idClient,$donnees){
         $queryBuilder = new QueryBuilder($this->connexionSql);
         $queryBuilder->update('client')

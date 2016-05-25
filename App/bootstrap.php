@@ -12,6 +12,7 @@ session_start();
 
 ini_set('date.timezone', 'Europe/Paris');
 
+use Symfony\Component\HttpFoundation\Request;
 
 $loader = require_once __DIR__.'/../vendor/autoload.php';
 $loader->add("App",dirname(__DIR__));
@@ -19,6 +20,8 @@ $loader->addPsr4('App\\',__DIR__);
 
 $app = new Silex\Application();
 $app['debug'] = true;
+
+Request::enableHttpMethodParameterOverride();
 
 //Base de données
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -47,5 +50,7 @@ $app->mount("/manifestant", new App\Controller\ManifestantController());
 $app->mount('/panier', new App\Controller\PanierController());
 $app->mount('/client', new App\Controller\ClientController());
 $app->mount('/commande', new App\Controller\CommandeController());
+
+
 
 $app->run();

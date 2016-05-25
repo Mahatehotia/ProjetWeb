@@ -79,14 +79,14 @@ class CommandeModel
         $queryBuilder->execute();
     }
 
-    public function envoyerCommande($idClient,$idCommande){
+    public function annulerCommande($idClient,$idCommande){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder->update('commande')
             ->set('etat',':etat')
             ->where('idClient =:client and idCommande = :id')
             ->setParameter('client',$idClient)
             ->setParameter('id',$idCommande)
-            ->setParameter('etat','\'send\'');
+            ->setParameter('etat','canceled');
         $queryBuilder->execute();
     }
 }

@@ -22,6 +22,7 @@ class ManifestantController implements ControllerProviderInterface{
 
     private $manifestantModel;
     private $typeManifestantModel;
+    private $clientModel;
 
     public function __construct()
     {
@@ -40,11 +41,25 @@ class ManifestantController implements ControllerProviderInterface{
         return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function add(Application $app){
+        $this->clientModel = new ClientModel($app);
+
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         $this->typeManifestantModel = new TypeManifestantModel($app);
         $types = $this->typeManifestantModel->getAllTypes();
         return $app["twig"]->render('manifestant/v_form_create_manifestant.twig',['types'=>$types,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function validAdd(Application $app){
+        $this->clientModel = new ClientModel($app);
+
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         $erreurs=array();
         $donnees['typeManifestant']=htmlspecialchars($_POST['typeManifestant']);
         $donnees['nomManifestant']=htmlspecialchars($_POST['nomManifestant']);
@@ -78,6 +93,13 @@ class ManifestantController implements ControllerProviderInterface{
 
     public function deleteManifestant(Application $app, $id)
     {
+        $this->clientModel = new ClientModel($app);
+
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         $this->manifestantModel = new ManifestantModel($app);
         $manifestant = $this->manifestantModel->readUnManifestant($id);
         return "delete Manifestant";
