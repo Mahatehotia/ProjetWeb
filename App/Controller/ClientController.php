@@ -52,6 +52,11 @@ class ClientController implements ControllerProviderInterface
     }
     public function ficheClient(Application $app){
         $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+        $this->clientModel = new ClientModel($app);
         $idClient=$this->clientModel->getIdUser();
         $this->panierModel = new PanierModel($app);
         if ($idClient==null) {
@@ -74,6 +79,13 @@ class ClientController implements ControllerProviderInterface
     }
 
     public function ficheAllClient(Application $app){
+        $this->clientModel = new ClientModel($app);
+
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
         $this -> clientModel = new ClientModel($app);
         $idClient=$this->clientModel->getIdUser();
         $droits = $this->clientModel->getFicheClient($idClient);
@@ -85,6 +97,11 @@ class ClientController implements ControllerProviderInterface
     }
 
     public function updateClient(Application $app){
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $this->clientModel = new ClientModel($app);
         $id = $this->clientModel->getIdUser();
         $donnees = $this ->clientModel->getFicheClient($id);
@@ -100,6 +117,11 @@ class ClientController implements ControllerProviderInterface
 
     public function validFormUpdateClient(Application $app)
     {
+        $this->clientModel = new ClientModel($app);
+        if(!$this->clientModel->estClient()){
+            $app['session']->getFlashBag()->add('msg', 'Veuillez vous identifier !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $erreurs = array();
         $donnees = array();
 
