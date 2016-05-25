@@ -95,13 +95,18 @@ class ClientController implements ControllerProviderInterface
     {
         $erreurs = array();
         $donnees = array();
+
+        $donnees['id'] = $id;
+        $donnees['nom'] = htmlspecialchars($_POST['nom']);
+        $donnees['prenom'] = htmlspecialchars($_POST['prenom']);
+        $donnees['email'] = htmlspecialchars($_POST['email']);
         if (!empty($erreurs)) {
-            $this->clientModel = new DepenseModel($app);
+            $this->clientModel = new ClientModel($app);
             $donnees = $this ->clientModel->getFicheClient($id);
             $commandes= $this->commandeModel->getAllCommandesClient($id);
             return $app["twig"]->render("client/v_formUpdateFicheClient.twig", array('erreurs' => $erreurs, 'commandes' => $commandes, 'donnees' => $donnees, 'path' => BASE_URL, '_SESSION' => $_SESSION));
         }else {
-            $this->clientModel = new DepenseModel($app);
+            $this->clientModel = new ClientModel($app);
             $this->clientModel->updateFicheClient($id, $donnees);
             return $app->redirect($app["url_generator"]->generate('client.ficheClient'));
         }
