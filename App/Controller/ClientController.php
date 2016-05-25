@@ -80,6 +80,33 @@ class ClientController implements ControllerProviderInterface
         return $app["twig"]->render('client/v_ficheAllClient.twig',['droits'=>$droits,'clients'=>$allClients,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
 
+    public function updateClient(Application $app,$id){
+        $this->clientModel = new ClientModel($app);
+        $donnees = $this ->clientModel->getFicheClient($id);
+        $commandes= $this->commandeModel->getAllCommandesClient($id);
+        for($i = 0; $i < count($commandes); $i++){
+            $commandes[$i]['detail']=$this->panierModel->getDetailCommande($commandes[$i]['idCommande']);;
+        }
+        return $app["twig"]->render("client/v_formUpdateFicheClient.twig",['donnees'=>$donnees,'commandes'=>$commandes,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+
+    }
+
+    public function validFormUpdateClient(Application $app,$id)
+    {
+        $erreurs = array();
+        $donnees = array();
+        if (!empty($erreurs)) {
+            $this->clientModel = new DepenseModel($app);
+            $donnees = $this ->clientModel->getFicheClient($id);
+            $commandes= $this->commandeModel->getAllCommandesClient($id);
+            return $app["twig"]->render("client/v_formUpdateFicheClient.twig", array('erreurs' => $erreurs, 'commandes' => $commandes, 'donnees' => $donnees, 'path' => BASE_URL, '_SESSION' => $_SESSION));
+        }else {
+            $this->clientModel = new DepenseModel($app);
+            $this->clientModel->updateFicheClient($id, $donnees);
+            return $app->redirect($app["url_generator"]->generate('client.ficheClient'));
+        }
+    }
+
 
 
     public function connect(Application $app)
@@ -92,6 +119,9 @@ class ClientController implements ControllerProviderInterface
         $index->get("/ficheAllClient", 'App\Controller\ClientController::ficheAllClient')->bind('client.ficheAllClient');
         $index->post("/login", 'App\Controller\ClientController::loginValid');
         $index->get("/info", 'App\Controller\ClientController::index');
+
+        $index->get('/edit/{id}', 'App\Controller\ClientController::updateClient')->bind('updateClient.edit');
+        $index->post('/edit/{id}', 'App\Controller\ClientController::validFormUpdateClient');
 
 
         return $index;

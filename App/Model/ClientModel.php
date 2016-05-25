@@ -63,11 +63,28 @@ class ClientModel
 
     public function getFicheClient($idClient){
         $queryBuilder = new QueryBuilder($this->connexionSql);
-        $queryBuilder->select('nom', 'prenom','email','droits')
+        $queryBuilder->select('id','nom', 'prenom','email','droits')
             ->from('client')
             ->where('id = :idClient')
             ->setParameter('idClient',$idClient);
         return $queryBuilder->execute()->fetch();
+    }
+
+    public function updateFicheClient($idClient,$donnees){
+        $queryBuilder = new QueryBuilder($this->connexionSql);
+        $queryBuilder->update('client')
+            ->set('email','?')
+            ->set('mdp','?')
+            ->set('nom','?')
+            ->set('prenom','?')
+            ->where('id= ?')
+            ->setParameter(0, $donnees['email'])
+            ->setParameter(1, $donnees['mdp'])
+            ->setParameter(2, $donnees['nom'])
+            ->setParameter(3, $donnees['prenom'])
+            ->setParameter(4, $idClient);
+
+        $queryBuilder->execute();
     }
 
 }
