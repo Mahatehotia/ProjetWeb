@@ -4,8 +4,7 @@
         <caption> Vos commandes </caption>
         <thead>
         <tr>
-            <th>N° Commande </th>
-            <th> IdClient </th>
+            <th>N° de Commande</th>
             <th> Détails commande </th>
             <th class="text-center"> Date </th>
             <th> Status </th>
@@ -14,10 +13,10 @@
         <tbody>
         {% for commande in data if data is not empty %}
             <tr>
-                <td> {{ commande.idCommande }}</td>
-                <td> {{ commande.idClient }} </td>
+                <td>#{{ commande.idCommande }}</td>
                 <td>
-                    <ul>
+                    <a data-dropdown="drop{{ commande.idCommande }}" aria-controls="drop{{ commande.idCommande }}" aria-expanded="false">Détails</a>
+                    <ul id="drop{{ commande.idCommande }}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
                         {% for liste in commande.detail if commande.detail is not empty %}
                             <li>{{ liste.quantite }} x {{ liste.nom }}</li>
                         {% endfor %}

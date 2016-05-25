@@ -48,7 +48,7 @@ CREATE TABLE commande(
   idCommande int(10) AUTO_INCREMENT NOT NULL,
   idClient int(10) NOT NULL,
   date TIMESTAMP NOT NULL DEFAULT current_timestamp,
-  etat ENUM ('waiting', 'sold', 'send') DEFAULT 'waiting',
+  etat ENUM ('waiting', 'sold', 'send', 'canceled') DEFAULT 'waiting',
   total FLOAT(5, 2),
   PRIMARY KEY (idCommande),
   FOREIGN KEY (idClient) REFERENCES client(id)

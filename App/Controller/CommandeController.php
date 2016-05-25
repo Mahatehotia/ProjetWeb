@@ -29,7 +29,7 @@ class CommandeController implements ControllerProviderInterface
         $this->clientModel = new ClientModel($app);
         $commandes= $this->commandeModel->getAllCommandesClient($this->clientModel->getIdUser());
         for($i = 0; $i < count($commandes); $i++){
-            $commandes[$i]['detail']=$this->panierModel->getDetailCommande($commandes[$i]['idCommande']);;
+            $commandes[$i]['detail']=$this->panierModel->getDetailCommande($commandes[$i]['idCommande']);
         }
         return $app["twig"]->render('commande/v_table_commandeClient.twig',['data'=>$commandes,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }

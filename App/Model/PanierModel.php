@@ -132,4 +132,14 @@ class PanierModel{
             $this->deleteArticleClient($idClient, $produit['id']);
         }
     }
+
+    public function changerEtatCommande($idCommande, $etat){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->update('commande')
+            ->set('etat', $etat)
+            ->where('idCommande = :id ')
+            ->setParameter('id', $idCommande);
+
+        $queryBuilder->execute();
+    }
 }

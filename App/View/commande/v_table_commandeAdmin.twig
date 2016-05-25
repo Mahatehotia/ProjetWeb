@@ -18,10 +18,11 @@
                 <td> {{ commande.idCommande }}</td>
                 <td> {{ commande.idClient }} </td>
                 <td>
-                    <ul>
-                    {% for liste in commande.detail if commande.detail is not empty %}
-                        <li>{{ liste.quantite }} x {{ liste.nom }}</li>
-                    {% endfor %}
+                    <a data-dropdown="drop{{ commande.idCommande }}" aria-controls="drop{{ commande.idCommande }}" aria-expanded="false">Détails</a>
+                    <ul id="drop{{ commande.idCommande }}" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+                        {% for liste in commande.detail if commande.detail is not empty %}
+                            <li>{{ liste.quantite }} x {{ liste.nom }}</li>
+                        {% endfor %}
                     </ul>
                 </td>
                 <td> {{ commande.date }}</td>
