@@ -1,0 +1,73 @@
+{% extends "v_layout.twig" %}
+{% block contenu %}
+    <div class="row">
+    <div class="large-12 columns">
+
+        <div class="row">
+            <div class="large-12 columns">
+            </div>
+        </div>
+        <div class="row">
+
+            <div class="large-4 small-12 columns">
+                <img src="http://placehold.it/500x500&amp;text=Avatar">
+                <div class="hide-for-small panel">
+                    <input name="id"  type="hidden" value="{{donnees.id}}" />
+                    <h3>Nom Prenom: </h3>
+                    <h5 class="subheader">
+                        <input name="nom" value="{{ donnees.nom }}" />
+                        <input name="prenom" value="{{ donnees.prenom }}"/>
+                    </h5>
+                    <h4> Adresse Mail: </h4>
+                    <h5> <input name="email" value="{{ donnees.email }}"/> </h5>
+                </div><a href="#">
+                    <div class="panel callout radius">
+                        <h6>{% set totalPrix = 0 %}
+                            {% for element in commandes %}
+                                {% set totalPrix = totalPrix + element.total %}
+                            {% endfor %}
+                            {% if totalPrix!= 0 %}
+                                <span> Montant Total: {{ totalPrix }} €</span>
+                            {% endif %}</h6>
+                    </div></a>
+            </div>
+            <div class="large-8 columns">
+                <div class="row">
+                    {% for panier in commandes if commandes is not empty %}
+                        <div class="large-4 small-6 columns">
+                            <h5>Détail Commande</h5>
+                            {% for liste in panier.detail if panier.detail is not empty %}
+                                <li>{{ liste.quantite }} x {{ liste.nom }}</li>
+                                <h6 class="subheader">Montant: {{ liste.prix }} €</h6>
+                                <h6 class="subheader">Status: {{ panier.etat }}</h6>
+                            {% endfor %}
+                            <div class="panel">
+                                <h6 class="subheader">Date Commande: {{ panier.date }}</h6>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="row">
+                        <div class="large-12 columns">
+                            <div class="panel">
+                                <div class="row">
+                                    <div class="large-10 small-6 columns">
+                                        <strong>Bienvenu</strong><br>
+                                        <hr>
+                                        Bonjour.<br>
+                                        bienvenu dans votre espace client.
+                                        Vous pouvez gérer vos informations.
+                                    </div>
+                                    <div class="large-2 small-4 columns">
+                                        <a href="#"><span class="fi-widget"></span> Modifier</a>
+                                        <a href="{{ url('manifestant.show') }}"><span class="fi-shopping-cart"></span> Shop</a><br>
+                                        <a href="{{ url('panier.show') }}"><span class="fi-shopping-bag"></span> Panier</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
