@@ -35,12 +35,18 @@ class ManifestantController implements ControllerProviderInterface{
 
     public function show(Application $app) {
         $this->manifestantModel = new ManifestantModel($app);
-        $manifestant = $this->manifestantModel->getAllManifestant();
+
         $this->typeManifestantModel = new TypeManifestantModel($app);
         $types = $this->typeManifestantModel->getAllTypes();
         $panierModel = new PanierModel($app);
         $clientModel = new ClientModel($app);
+        $manifestant = null;
         $panier = $panierModel->getPanierClient($clientModel->getIdUser());
+        if(isset($_GET['type']) && in_array($_GET['type'], array_column($types, 'libelle'))){
+                $manifestant = $this->manifestantModel->getAllManifestantByType($_GET['type']);
+        }else{
+            $manifestant = $this->manifestantModel->getAllManifestant();
+        }
         return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'types'=> $types, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function add(Application $app){

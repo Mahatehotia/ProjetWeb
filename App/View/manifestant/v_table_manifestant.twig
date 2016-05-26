@@ -1,5 +1,24 @@
 {% extends "v_layout.twig" %}
 {% block contenu %}
+    <div class="row">
+        <form method="get" action="{{ url('manifestant.show') }}">
+            <div class="columns large-4">
+                <select name="type" class="radius" style="margin-top: 5px;">
+                    <option>Tous les types</option>
+                    {% for type in types %}
+                        <option {% if app.request.query.get("type") == type.libelle %}selected{% endif %}>{{ type.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="columns large-3">
+                <input type="submit" class="button radius info" value="Filtrer" />
+            </div>
+
+            <div class="columns large-5">
+            </div>
+        </form>
+
+    </div>
     <div class="row align-center">
         <div class="column large-9 small-4">
     {% for manifestant in data if data is not empty %}
