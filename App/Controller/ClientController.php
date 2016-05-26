@@ -134,6 +134,14 @@ class ClientController implements ControllerProviderInterface
         $donnees['nom'] = htmlspecialchars($_POST['nom']);
         $donnees['prenom'] = htmlspecialchars($_POST['prenom']);
         $donnees['email'] = htmlspecialchars($_POST['email']);
+        $donnees['mdp'] = htmlspecialchars($_POST['mdp']);
+        $donnees['mdp2'] = htmlspecialchars($_POST['mdp2']);
+
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['nom']))) $erreurs['nom']='Manque votre nom';
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['prenom']))) $erreurs['prenom']='Manque votre prenom';
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['email']))) $erreurs['email']='Manque votre email';
+        if ((! preg_match("/^[A-Za-z ]{4,}/",$donnees['mdp']))) $erreurs['mdp']='Votre doit composer 4 caractères';
+
         if (!empty($erreurs)) {
             $this->clientModel = new ClientModel($app);
             $donnees = $this ->clientModel->getFicheClient($id);
@@ -180,8 +188,6 @@ class ClientController implements ControllerProviderInterface
 
         }
     }
-
-
 
     public function connect(Application $app)
     {

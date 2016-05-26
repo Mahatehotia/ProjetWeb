@@ -16,10 +16,31 @@
                     <h3>Nom Prenom: </h3>
                     <h5 class="subheader">
                         <input name="nom" value="{{ donnees.nom }}" />
+                        {% if erreurs.nom is defined %}
+                            <small class="error">{{erreurs.nom}}</small>
+                        {% endif %}
                         <input name="prenom" value="{{ donnees.prenom }}"/>
+                        {% if erreurs.prenom is defined %}
+                            <small class="error">{{erreurs.prenom}}</small>
+                        {% endif %}
                     </h5>
                     <h4> Adresse Mail: </h4>
-                    <h5> <input name="email" value="{{ donnees.email }}"/> </h5>
+                    <h5> <input name="email" value="{{ donnees.email }}"/>
+                        {% if erreurs.email is defined %}
+                            <small class="error">{{erreurs.email}}</small>
+                        {% endif %}</h5>
+
+                        <h5> Mot de passe: </h5>
+                        <h5 class="subheader">
+                            <input type="password" name="mdp" placeholder="modifier"/>
+                            {% if erreurs.mdp is defined %}
+                                <small class="error">{{erreurs.mdp}}</small>
+                            {% endif %}
+                            <input type="password" name="mdp2" placeholder="confirmer"/>
+                            {% if erreurs.mdp2 is defined %}
+                                <small class="error">{{erreurs.mdp2}}</small>
+                            {% endif %}
+                        </h5>
                     <input type="submit" value="Valider" />
                     </form>
                 </div><a href="#">
