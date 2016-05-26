@@ -50,6 +50,7 @@ class ClientController implements ControllerProviderInterface
             return $app->redirect($app["url_generator"]->generate('manifestant.show'));
         }
     }
+
     public function ficheClient(Application $app){
         $this->clientModel = new ClientModel($app);
         if(!$this->clientModel->estClient()){
@@ -150,6 +151,36 @@ class ClientController implements ControllerProviderInterface
         return $app["twig"]->render("client/v_inscriptionUsers.twig",['path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
 
+    public function validInscriptionUsers(Application $app){
+        $erreurs = array();
+        $donnees=array();
+
+        $donnees['nom']=htmlspecialchars($_POST['nom']);
+        $donnees['prenom']=htmlspecialchars($_POST['prenom']);
+        $donnees['email']=htmlspecialchars($_POST['email']);
+        $donnees['mdp']=htmlspecialchars($_POST['mdp']);
+        $donnees['mdp2']=htmlspecialchars($_POST['mdp2']);
+
+
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['nom']))) $erreurs['nom']='Manque votre nom';
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['prenom']))) $erreurs['prenom']='Manque votre prenom';
+        if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['email']))) $erreurs['email']='Manque votre email';
+        if ((! preg_match("/^[A-Za-z ]{4,}/",$donnees['mdp']))) $erreurs['mdp']='Votre doit composer 4 caractères';
+        if ($donnees['mdp']!=$donnees['mdp2']) $erreurs['mdp2']='Pas de correspondance entre les 2 mots de passe';
+
+        if(! empty($erreurs)){
+            $this->clientModel=new ClientModel($app);
+            return $app["twig"]->render('client/v_inscriptionUsers.twig',['donnees'=>$donnees,'erreurs'=>$erreurs,'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        }
+        else {
+
+            $this->clientModel=new ClientModel($app);
+            $this->clientModel->inscription($donnees['nom'],$donnees['prenom'],$donnees['email'],$donnees['mdp2']);
+            return $app->redirect($app["url_generator"]->generate("manifestant.show"));
+
+        }
+    }
+
 
 
     public function connect(Application $app)
@@ -167,6 +198,7 @@ class ClientController implements ControllerProviderInterface
         $index->post('/edit', 'App\Controller\ClientController::validFormUpdateClient');
 
         $index->get('/inscription','App\Controller\ClientController::inscriptionUsers')->bind('client.inscriptionUsers');
+        $index->post('/inscription','App\Controller\ClientController::validInscriptionUsers')->bind('client.validInscriptionUsers');
 
         return $index;
     }
