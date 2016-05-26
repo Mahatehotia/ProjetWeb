@@ -1,7 +1,7 @@
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
-            <h1> <a href="{{ path }}index.php">WEB</a></h1>
+            <h1> <a href="{{ path('manifestant.show') }}">WEB</a></h1>
         </li>
         <li class="toggle-topbar menu-icon">
             <a href="#"><span>Menu</span></a>
@@ -10,29 +10,29 @@
     <section class="top-bar-section">
         <ul class="left">
             <li class="divider"></li>
-            <li><a href="{{ path('manifestant.show') }}">Commandez votre manifestation !</a></li>
+            <li><a href="{{ path('manifestant.show') }}"><strong><span class="fi-prohibited"></span> Commandez votre manifestation !</strong></a></li>
             {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}
+                <li class="divider"></li>
+                <li><a href="{{ path('panier.show') }}"><span class="fi-shopping-bag"></span> Votre Panier</a></li>
 
-                <li><a href="{{ path('panier.show') }}">Votre Panier</a></li>
-
-                <li><a href="{{ path('commande.clientList') }}">Vos Commandes</a></li>
-                <li><a href="{{ path('client.ficheClient') }}">Votre Profil</a></li>
+                <li><a href="{{ path('commande.clientList') }}"><span class="fi-shopping-cart"></span> Vos Commandes</a></li>
+                <li><a href="{{ path('client.ficheClient') }}"><span class="fi-torso"></span> Votre Profil</a></li>
             {% endif %}
-        </ul>
-        {% if app.session.get('logged') is defined and app.session.get('logged') == 1 and app.session.get('droit') == 'admin' %}
-        <ul class="has-dropdown">
-            <li class="has-dropdown"><a href="#">Administration</a>
-                <ul class="dropdown">
-                    <li><a href="{{ path('commande.adminList') }}"> Afficher les commandes </a></li>
-                    <li><a href="{{ path('manifestant.add') }}"> Ajouter un Manifestant </a></li>
-                    <li><a href="{{ path('manifestant.stock') }}"> Gestion des Stocks </a></li>
-                    <li><a href="{{ path('client.ficheAllClient') }}">Gestion des Utilisateurs</a></li>
-                </ul>
-            </li>
-        </ul>
-        {% endif %}
+            </ul>
 
         <ul class="right">
+            {% if app.session.get('logged') is defined and app.session.get('logged') == 1 and app.session.get('droit') == 'admin' %}
+                <li class="has-dropdown"><a href="#"><span class="fi-wrench"></span>Administration</a>
+                    <ul class="dropdown">
+                        <li><a href="{{ path('commande.adminList') }}"> Afficher les commandes </a></li>
+                        <li><a href="{{ path('manifestant.add') }}"> Ajouter un Manifestant </a></li>
+                        <li><a href="{{ path('manifestant.stock') }}"> Gestion des Stocks </a></li>
+                        <li><a href="{{ path('client.ficheAllClient') }}">Gestion des Utilisateurs</a></li>
+                    </ul>
+                </li>
+                <li class="divider"></li>
+
+            {% endif %}
             {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}
                 <li>
                     <a href="{{ url('client.logout') }}">Déconnexion</a>
