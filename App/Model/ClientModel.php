@@ -115,13 +115,13 @@ class ClientModel
                 'nom' => '?',
                 'prenom' => '?',
                 'email' => '?',
-                'mdp' => '?',
+                'mdp' => 'MD5(?)',
                 'droits' => '?'
             ])
             ->setParameter(0, $nom)
             ->setParameter(1, $prenom)
             ->setParameter(2, $email)
-            ->setParameter(3, md5($mdp))
+            ->setParameter(3, $mdp)
             ->setParameter(4, $droits);
 
         $queryBuilder->execute();
