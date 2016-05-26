@@ -2,6 +2,7 @@
 {% block contenu %}
     <div class="row align-center">
         <div class="column large-9 small-4">
+            <h4>Gestion  des stocks</h4>
             {% for manifestant in data if data is not empty %}
                 <div class="row" style="border: groove #84b1ff 2px; margin: 15px;">
                     <h1 style="padding-left: 3px;">{{manifestant.nom}}</h1>
@@ -13,21 +14,21 @@
                         <div class="row">Catégorie : {{ manifestant.libelle }}</div>
                         <div class="row" style="margin-top: 5px;">{{ manifestant.description }}</div>
                         <div class="row collapse" style="margin-top: 15px;">
-                            <form {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}action="{{ url('panier2.ajout') }}" method="post"{% else %}action="{{ url('client.login') }}" method="get"{% endif %}">
-                            <input type="hidden" name="idManifestant" value="{{ manifestant.id }}">
+                            <form {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}action="{{ url('manifestant.stock') }}/{{ manifestant.id }}" method="post"{% else %}action="{{ url('client.login') }}" method="get"{% endif %}">
                             <div class="row collapse">
                                 <label>Quantité</label>
-                                <div class="small-5 columns">
-                                    <input id="quantite" name="quantite" type="number" min="1" max="{{ manifestant.stock }}" {% if manifestant.stock == 0 %} disabled value="0" {% else %} value="1" {% endif %}>
+
+                                <div class="small-4 columns">
+                                    <span class="prefix" style="font-style: italic;">{{ manifestant.stock }} disponible{% if manifestant.stock > 1 %}s{% endif %}</span>
                                 </div>
                                 <div class="small-4 columns">
-                                    <span class="postfix" style="font-style: italic;">{{ manifestant.stock }} disponible{% if manifestant.stock > 1 %}s{% endif %}</span>
+                                    <input id="quantite" name="quantite" type="number" min="1" value="1">
                                 </div>
-                                <div class="small-3 columns">
+                                <div class="small-4 columns">
 
                                     <input class="postfix button radius
                                 {% if manifestant.stock < 4 and manifestant.stock >=0 %}warning {% else %}success {% endif %}
-                               " type="submit" value="Ajouter" >
+                               " type="submit" value="Réaprovisionner" >
                                 </div>
                             </div>
                             </form>

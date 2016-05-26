@@ -132,7 +132,18 @@ class ManifestantController implements ControllerProviderInterface{
     }
 
     public function validAjoutStock(Application $app,$idManifestant){
+        $quantite = $_POST['quantite'];
+        $this-> clientModel = new ClientModel($app);
 
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
+        $this->manifestantModel = new ManifestantModel($app);
+        $this->manifestantModel->rendreManifestant($idManifestant, $quantite);
+
+        return $app->redirect($app["url_generator"]->generate('manifestant.stock'));
     }
 
     
@@ -151,6 +162,7 @@ class ManifestantController implements ControllerProviderInterface{
         $index->get('/edit/{id}', 'App\Controller\ManifestantController::edit')->bind('manifestant.edit');
 
         $index->get('/addStock','App\Controller\ManifestantController::ajoutStock')->bind('manifestant.stock');
+        $index->post('/addStock/{idManifestant}','App\Controller\ManifestantController::validAjoutStock');
 
         return $index;
     }
