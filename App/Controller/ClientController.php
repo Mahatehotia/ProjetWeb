@@ -145,6 +145,11 @@ class ClientController implements ControllerProviderInterface
         }
     }
 
+    public function inscriptionUsers(Application $app){
+        $this->clientModel = new ClientModel($app);
+        return $app["twig"]->render("client/v_inscriptionUsers.twig",['path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+    }
+
 
 
     public function connect(Application $app)
@@ -161,6 +166,7 @@ class ClientController implements ControllerProviderInterface
         $index->get('/edit', 'App\Controller\ClientController::updateClient')->bind('updateClient.edit');
         $index->post('/edit', 'App\Controller\ClientController::validFormUpdateClient');
 
+        $index->get('/inscription','App\Controller\ClientController::inscriptionUsers')->bind('client.inscriptionUsers');
 
         return $index;
     }

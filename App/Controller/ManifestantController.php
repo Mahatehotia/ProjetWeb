@@ -119,12 +119,20 @@ class ManifestantController implements ControllerProviderInterface{
     }
 
     public function ajoutStock(Application $app){
+        $this-> clientModel = new ClientModel($app);
+
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
         $this->manifestantModel = new ManifestantModel($app);
         $manifestant = $this->manifestantModel->getAllManifestant();
-        $panierModel = new PanierModel($app);
-        $clientModel = new ClientModel($app);
-        $panier = $panierModel->getPanierClient($clientModel->getIdUser());
-        return $app["twig"]->render('manifestant/v_tableEdit_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+
+        return $app["twig"]->render('manifestant/v_tableEdit_manifestant.twig',['data'=>$manifestant, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+    }
+
+    public function validAjoutStock(Application $app,$idManifestant){
+
     }
 
     
