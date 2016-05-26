@@ -33,6 +33,11 @@
                 <li class="divider"></li>
 
             {% endif %}
+            {% if app.session.get('logged') is defined and app.session.get('logged') == 0 %}
+                <li data-options="align:left">
+                    <a href="{{ url('client.inscriptionUsers') }}">Inscription</a>
+                </li>
+            {% endif %}
             {% if app.session.get('logged') is defined and app.session.get('logged') == 1 %}
                 <li>
                     <a href="{{ url('client.logout') }}">Déconnexion</a>
