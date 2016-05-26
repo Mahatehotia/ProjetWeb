@@ -141,6 +141,7 @@ class ClientController implements ControllerProviderInterface
         if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['prenom']))) $erreurs['prenom']='Manque votre prenom';
         if ((! preg_match("/^[A-Za-z ]{2,}/",$donnees['email']))) $erreurs['email']='Manque votre email';
         if ((! preg_match("/^[A-Za-z ]{4,}/",$donnees['mdp']))) $erreurs['mdp']='Votre doit composer 4 caractères';
+        if ($donnees['mdp']!=$donnees['mdp2']) $erreurs['mdp2']='Les 2 mots de passe sont différent';
 
         if (!empty($erreurs)) {
             $this->clientModel = new ClientModel($app);
