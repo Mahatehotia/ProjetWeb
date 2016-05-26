@@ -10,6 +10,7 @@ namespace App\Controller;
 use App\Model\ClientModel;
 use App\Model\PanierModel;
 use App\Model\TypeManifestantModel;
+use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -117,6 +118,15 @@ class ManifestantController implements ControllerProviderInterface{
         return "delete Manifestant";
     }
 
+    public function ajoutStock(Application $app){
+        $this->manifestantModel = new ManifestantModel($app);
+        $manifestant = $this->manifestantModel->getAllManifestant();
+        $panierModel = new PanierModel($app);
+        $clientModel = new ClientModel($app);
+        $panier = $panierModel->getPanierClient($clientModel->getIdUser());
+        return $app["twig"]->render('manifestant/v_tableEdit_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+    }
+
     
     public function connect(Application $app)
     {
@@ -131,6 +141,8 @@ class ManifestantController implements ControllerProviderInterface{
         $index->get('/delete/{id}', 'App\Controller\ManifestantController::deleteManifestant')->bind('manifestant.delete');
 
         $index->get('/edit/{id}', 'App\Controller\ManifestantController::edit')->bind('manifestant.edit');
+
+        $index->get('/addStock','App\Controller\ManifestantController::ajoutStock')->bind('manifestant.stock');
 
         return $index;
     }
