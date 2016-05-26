@@ -29,6 +29,18 @@ class ManifestantModel{
         return $queryBuilder->execute()->fetchAll();
     }
 
+    public function getAllManifestantByType($type) {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('m.id','tM.libelle','m.nom','m.prix','m.photo','m.stock', 'm.description')
+            ->from('manifestant', 'm')
+            ->leftJoin('m', 'typeManifestants', 'tM', 'm.typeManifestant=tM.id')
+            ->where('tM.libelle = :type')
+            ->setParameter('type', $type)
+            ->addOrderBy('m.id');
+        return $queryBuilder->execute()->fetchAll();
+    }
+
     public function ajouterManifestant($donnees){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder

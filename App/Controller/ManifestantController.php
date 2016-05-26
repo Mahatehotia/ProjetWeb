@@ -36,10 +36,12 @@ class ManifestantController implements ControllerProviderInterface{
     public function show(Application $app) {
         $this->manifestantModel = new ManifestantModel($app);
         $manifestant = $this->manifestantModel->getAllManifestant();
+        $this->typeManifestantModel = new TypeManifestantModel($app);
+        $types = $this->typeManifestantModel->getAllTypes();
         $panierModel = new PanierModel($app);
         $clientModel = new ClientModel($app);
         $panier = $panierModel->getPanierClient($clientModel->getIdUser());
-        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
+        return $app["twig"]->render('manifestant/v_table_manifestant.twig',['data'=>$manifestant, 'panier' => $panier, 'types'=> $types, 'path'=>BASE_URL,'_SESSION'=>$_SESSION]);
     }
     public function add(Application $app){
         $this->clientModel = new ClientModel($app);
@@ -132,7 +134,18 @@ class ManifestantController implements ControllerProviderInterface{
     }
 
     public function validAjoutStock(Application $app,$idManifestant){
+        $quantite = $_POST['quantite'];
+        $this-> clientModel = new ClientModel($app);
 
+        if(!$this->clientModel->estAdmin()) {
+            $app['session']->getFlashBag()->add('error', 'Droits insufisants !');
+            return $app->redirect($app["url_generator"]->generate('client.login'));
+        }
+
+        $this->manifestantModel = new ManifestantModel($app);
+        $this->manifestantModel->rendreManifestant($idManifestant, $quantite);
+
+        return $app->redirect($app["url_generator"]->generate('manifestant.stock'));
     }
 
     
@@ -151,6 +164,7 @@ class ManifestantController implements ControllerProviderInterface{
         $index->get('/edit/{id}', 'App\Controller\ManifestantController::edit')->bind('manifestant.edit');
 
         $index->get('/addStock','App\Controller\ManifestantController::ajoutStock')->bind('manifestant.stock');
+        $index->post('/addStock/{idManifestant}','App\Controller\ManifestantController::validAjoutStock');
 
         return $index;
     }
