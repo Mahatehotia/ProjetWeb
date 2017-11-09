@@ -1,8 +1,8 @@
 <?php
 define("hostname","localhost"); // ou serveurmysql
-define("database","BDD_pphelipo");
-define("username","root");
-define("password","root");
+define("database","BDD_tralijao");
+define("username","tralijao");
+define("password","1401");
 
 
 define("BASE_URL","http://localhost/web/ProjetWeb/public/");
